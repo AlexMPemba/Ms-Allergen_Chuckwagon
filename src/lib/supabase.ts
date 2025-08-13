@@ -55,4 +55,6 @@ export interface DishModification {
   action_type: 'created' | 'updated' | 'deleted';
   changes: any;
   created_at: string;
+  dish_name?: string;
+  dish_category?: string;
 }

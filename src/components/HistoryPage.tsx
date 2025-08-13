@@ -31,17 +31,14 @@ export default function HistoryPage() {
 
   // Fonction pour extraire le nom du plat depuis les modifications
   const getDishNameFromModification = (mod: DishModification) => {
-    console.log('🔍 [DISH_NAME] Analyse modification:', {
-      id: mod.id,
-      action_type: mod.action_type,
-      changes: mod.changes,
-      dish_id: mod.dish_id
-    });
+    // Priorité 1 : Utiliser dish_name si disponible (nouvelle colonne)
+    if (mod.dish_name) {
+      return mod.dish_name;
+    }
 
     // Pour les créations et suppressions, le nom est directement dans changes
     if (mod.action_type === 'created' || mod.action_type === 'deleted') {
-      const name = mod.changes?.nom;
-      console.log('🔍 [DISH_NAME] Nom pour', mod.action_type, ':', name);
+      const name = mod.changes?.nom || mod.changes?.deleted_dish?.nom;
       return name || 'Nom non disponible';
     }
 
@@ -49,24 +46,20 @@ export default function HistoryPage() {
     if (mod.action_type === 'updated') {
       // Si le nom a été modifié, prendre la nouvelle valeur
       if (mod.changes?.nom?.new) {
-        console.log('🔍 [DISH_NAME] Nom modifié (nouveau):', mod.changes.nom.new);
         return mod.changes.nom.new;
       }
       // Si le nom a été modifié, prendre l'ancienne valeur
       if (mod.changes?.nom?.old) {
-        console.log('🔍 [DISH_NAME] Nom modifié (ancien):', mod.changes.nom.old);
         return mod.changes.nom.old;
       }
       
       // Sinon, chercher le nom du plat actuel dans la liste des plats
       const currentDish = dishes.find(d => d.id === mod.dish_id);
       if (currentDish) {
-        console.log('🔍 [DISH_NAME] Nom trouvé dans plats actuels:', currentDish.nom);
         return currentDish.nom;
       }
     }
 
-    console.log('🔍 [DISH_NAME] Aucun nom trouvé, retour par défaut');
     return 'Nom non disponible';
   };
 
@@ -353,12 +346,26 @@ export default function HistoryPage() {
                         mod.action_type === 'updated' ? 'bg-blue-500' : 'bg-red-500'
                       }`}></div>
                       <div className="flex flex-col min-w-0 flex-1">
-                        <span 
-                          className="font-medium text-gray-800 truncate text-sm sm:text-base" 
-                          title={`ID: ${mod.dish_id}`}
-                        >
-                          {getDishNameFromModification(mod)}
-                        </span>
+                        <div className="flex items-center space-x-2">
+                          <span 
+                            className="font-medium text-gray-800 truncate text-sm sm:text-base" 
+                            title={`ID: ${mod.dish_id}`}
+                          >
+                            {getDishNameFromModification(mod)}
+                          </span>
+                          {/* Indicateur pour plats supprimés */}
+                          {mod.action_type === 'deleted' && (
+                            <span className="text-xs px-2 py-1 bg-red-100 text-red-800 rounded-full border border-red-600 flex-shrink-0">
+                              SUPPRIMÉ
+                            </span>
+                          )}
+                          {/* Indicateur pour modifications orphelines */}
+                          {mod.dish_id && !dishes.find(d => d.id === mod.dish_id) && mod.action_type !== 'deleted' && (
+                            <span className="text-xs px-2 py-1 bg-orange-100 text-orange-800 rounded-full border border-orange-600 flex-shrink-0">
+                              PLAT SUPPRIMÉ
+                            </span>
+                          )}
+                        </div>
                         <div className="flex items-center space-x-2 text-xs text-gray-500">
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                             mod.action_type === 'created' ? 'bg-green-100 text-green-800' :
@@ -368,6 +375,11 @@ export default function HistoryPage() {
                              mod.action_type === 'updated' ? '✏️ Modifié' : '🗑️ Supprimé'}
                           </span>
                           <span>par {mod.user_email}</span>
+                          {mod.dish_category && (
+                            <span className="text-xs px-1.5 py-0.5 bg-amber-100 text-amber-800 rounded-full">
+                              {mod.dish_category}
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>
