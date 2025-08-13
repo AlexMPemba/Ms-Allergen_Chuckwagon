@@ -18,6 +18,13 @@ export const isSupabaseConfigured = () => {
   console.log('🔧 [CONFIG] Clé présente:', !!supabaseAnonKey);
   console.log('🔧 [CONFIG] Longueur clé:', supabaseAnonKey?.length);
   console.log('🔧 [CONFIG] Configuration finale:', isConfigured);
+  
+  if (!isConfigured) {
+    console.error('❌ [CONFIG] Supabase mal configuré !');
+    console.error('❌ [CONFIG] URL:', supabaseUrl);
+    console.error('❌ [CONFIG] Clé (premiers chars):', supabaseAnonKey?.substring(0, 20) + '...');
+  }
+  
   return isConfigured;
 };
 

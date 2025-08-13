@@ -143,7 +143,7 @@ export default function AdminPanel() {
       
     } catch (err) {
       console.error('❌ [ADD] Erreur lors de l\'ajout:', err);
-      setOperationError(err instanceof Error ? err.message : 'Erreur lors de l\'ajout du plat');
+      setOperationError(`Erreur lors de l'ajout: ${err instanceof Error ? err.message : 'Erreur inconnue'}`);
     } finally {
       setOperationLoading(false);
     }
@@ -182,7 +182,7 @@ export default function AdminPanel() {
       
     } catch (err) {
       console.error('❌ [EDIT] Erreur lors de la modification:', err);
-      setOperationError(err instanceof Error ? err.message : 'Erreur lors de la modification du plat');
+      setOperationError(`Erreur lors de la modification: ${err instanceof Error ? err.message : 'Erreur inconnue'}`);
     } finally {
       setOperationLoading(false);
     }
@@ -197,7 +197,7 @@ export default function AdminPanel() {
 
   // Supprimer un plat
   const handleDeleteDish = async (dishId: string, dishName: string) => {
-    if (!confirm(`Êtes-vous sûr de vouloir supprimer "${dishName}" ?`)) {
+    if (!window.confirm(`Êtes-vous sûr de vouloir supprimer "${dishName}" ?`)) {
       return;
     }
 
@@ -217,7 +217,7 @@ export default function AdminPanel() {
       
     } catch (err) {
       console.error('❌ [DELETE] Erreur lors de la suppression:', err);
-      setOperationError(err instanceof Error ? err.message : 'Erreur lors de la suppression du plat');
+      setOperationError(`Erreur lors de la suppression: ${err instanceof Error ? err.message : 'Erreur inconnue'}`);
     } finally {
       setOperationLoading(false);
     }
@@ -242,7 +242,7 @@ export default function AdminPanel() {
       
     } catch (err) {
       console.error('❌ [RESET] Erreur lors de la réinitialisation:', err);
-      setOperationError(err instanceof Error ? err.message : 'Erreur lors de la réinitialisation du menu');
+      setOperationError(`Erreur lors de la réinitialisation: ${err instanceof Error ? err.message : 'Erreur inconnue'}`);
     } finally {
       setOperationLoading(false);
     }
@@ -267,7 +267,7 @@ export default function AdminPanel() {
       
     } catch (err) {
       console.error('❌ [A2] Erreur lors de l\'ajout du menu A2:', err);
-      setOperationError(err instanceof Error ? err.message : 'Erreur lors de l\'ajout du menu A2');
+      setOperationError(`Erreur lors de l'ajout du menu A2: ${err instanceof Error ? err.message : 'Erreur inconnue'}`);
     } finally {
       setOperationLoading(false);
     }

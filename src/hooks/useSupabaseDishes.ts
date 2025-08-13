@@ -121,15 +121,10 @@ export function useSupabaseDishes() {
   const addDish = async (dish: Omit<Dish, 'id'>) => {
     try {
       setLoading(true);
+      setError(null);
       
       if (!supabase || !isSupabaseConfigured()) {
         throw new Error('Supabase non configuré');
-      }
-
-      // Vérifier l'authentification avant d'ajouter
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        throw new Error('Vous devez être connecté pour ajouter un plat');
       }
 
       const newDish: Dish = {
@@ -153,10 +148,7 @@ export function useSupabaseDishes() {
 
       if (error) {
         console.error('Erreur lors de l\'ajout en base:', error);
-        if (error.code === '42501') {
-          throw new Error('Accès non autorisé - Vérifiez vos permissions');
-        }
-        throw error;
+        throw new Error(`Erreur lors de l'ajout: ${error.message}`);
       }
 
       // Recharger les plats depuis Supabase
@@ -177,15 +169,10 @@ export function useSupabaseDishes() {
   const updateDish = async (id: string, updates: Partial<Dish>) => {
     try {
       setLoading(true);
+      setError(null);
       
       if (!supabase || !isSupabaseConfigured()) {
         throw new Error('Supabase non configuré');
-      }
-
-      // Vérifier l'authentification avant de modifier
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        throw new Error('Vous devez être connecté pour modifier un plat');
       }
 
       console.log('🔄 Début mise à jour plat:', id, updates);
@@ -206,10 +193,7 @@ export function useSupabaseDishes() {
 
       if (error) {
         console.error('Erreur lors de la mise à jour en base:', error);
-        if (error.code === '42501') {
-          throw new Error('Accès non autorisé - Vérifiez vos permissions');
-        }
-        throw error;
+        throw new Error(`Erreur lors de la modification: ${error.message}`);
       }
 
       console.log('✅ Plat mis à jour en base:', id, updateData);
@@ -230,16 +214,13 @@ export function useSupabaseDishes() {
   const deleteDish = async (id: string) => {
     try {
       setLoading(true);
+      setError(null);
       
       if (!supabase || !isSupabaseConfigured()) {
         throw new Error('Supabase non configuré');
       }
 
-      // Vérifier l'authentification avant de supprimer
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        throw new Error('Vous devez être connecté pour supprimer un plat');
-      }
+      console.log('🔄 [DELETE] Tentative de suppression du plat:', id);
 
       const { error } = await supabase
         .from('dishes')
@@ -248,11 +229,10 @@ export function useSupabaseDishes() {
 
       if (error) {
         console.error('Erreur lors de la suppression en base:', error);
-        if (error.code === '42501') {
-          throw new Error('Accès non autorisé - Vérifiez vos permissions');
-        }
-        throw error;
+        throw new Error(`Erreur lors de la suppression: ${error.message}`);
       }
+      
+      console.log('✅ [DELETE] Plat supprimé avec succès');
       
       // Recharger les plats depuis Supabase
       await loadDishes();
