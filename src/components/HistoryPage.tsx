@@ -10,6 +10,8 @@ export default function HistoryPage() {
   const [loading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedAction, setSelectedAction] = useState<'all' | 'created' | 'updated' | 'deleted'>('all');
+  const [selectedUser, setSelectedUser] = useState('');
 
   // Charger l'historique au montage du composant
   useEffect(() => {
@@ -97,6 +99,19 @@ export default function HistoryPage() {
       });
     }
 
+    // Filtre par type d'action
+    if (selectedAction !== 'all') {
+      filtered = filtered.filter(mod => mod.action_type === selectedAction);
+    }
+
+    // Filtre par utilisateur
+    if (selectedUser.trim()) {
+      const userQuery = selectedUser.toLowerCase().trim();
+      filtered = filtered.filter(mod => 
+        mod.user_email.toLowerCase().includes(userQuery)
+      );
+    }
+
     // Filtre par recherche (nom du plat)
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase().trim();
@@ -107,7 +122,7 @@ export default function HistoryPage() {
     }
 
     return filtered;
-  }, [modifications, selectedDate, searchQuery, dishes]);
+  }, [modifications, selectedDate, searchQuery, selectedAction, selectedUser, dishes]);
 
   const handleBack = () => {
     navigate(-1);
@@ -119,6 +134,13 @@ export default function HistoryPage() {
 
   const clearSearchFilter = () => {
     setSearchQuery('');
+  };
+
+  const clearAllFilters = () => {
+    setSelectedDate('');
+    setSearchQuery('');
+    setSelectedAction('all');
+    setSelectedUser('');
   };
 
   const refreshHistory = async () => {
@@ -221,6 +243,90 @@ export default function HistoryPage() {
                 )}
               </div>
             </div>
+
+            {/* Filtre par type d'action */}
+            <div>
+              <label className="block text-sm font-medium western-subtitle mb-2">
+                Type d'action
+              </label>
+              <select
+                value={selectedAction}
+                onChange={(e) => setSelectedAction(e.target.value as any)}
+                className="w-full p-3 western-input rounded-lg focus:ring-2 focus:ring-amber-500"
+              >
+                <option value="all">Toutes les actions</option>
+                <option value="created">Créations</option>
+                <option value="updated">Modifications</option>
+                <option value="deleted">Suppressions</option>
+              </select>
+            </div>
+
+            {/* Filtre par utilisateur */}
+            <div>
+              <label className="block text-sm font-medium western-subtitle mb-2">
+                Utilisateur
+              </label>
+              <div className="flex space-x-2">
+                <input
+                  type="text"
+                  value={selectedUser}
+                  onChange={(e) => setSelectedUser(e.target.value)}
+                  placeholder="Email de l'utilisateur..."
+                  className="flex-1 p-3 western-input rounded-lg focus:ring-2 focus:ring-amber-500"
+                />
+                {selectedUser && (
+                  <button
+                    onClick={() => setSelectedUser('')}
+                    className="px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                    title="Effacer le filtre utilisateur"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Filtre par type d'action */}
+            <div>
+              <label className="block text-sm font-medium western-subtitle mb-2">
+                Type d'action
+              </label>
+              <select
+                value={selectedAction}
+                onChange={(e) => setSelectedAction(e.target.value as any)}
+                className="w-full p-3 western-input rounded-lg focus:ring-2 focus:ring-amber-500"
+              >
+                <option value="all">Toutes les actions</option>
+                <option value="created">Créations</option>
+                <option value="updated">Modifications</option>
+                <option value="deleted">Suppressions</option>
+              </select>
+            </div>
+
+            {/* Filtre par utilisateur */}
+            <div>
+              <label className="block text-sm font-medium western-subtitle mb-2">
+                Utilisateur
+              </label>
+              <div className="flex space-x-2">
+                <input
+                  type="text"
+                  value={selectedUser}
+                  onChange={(e) => setSelectedUser(e.target.value)}
+                  placeholder="Email de l'utilisateur..."
+                  className="flex-1 p-3 western-input rounded-lg focus:ring-2 focus:ring-amber-500"
+                />
+                {selectedUser && (
+                  <button
+                    onClick={() => setSelectedUser('')}
+                    className="px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                    title="Effacer le filtre utilisateur"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Statistiques */}
@@ -228,16 +334,20 @@ export default function HistoryPage() {
             <div className="flex items-center space-x-4">
               <span>Total des modifications : <strong>{modifications.length}</strong></span>
               <span>Résultats filtrés : <strong>{filteredModifications.length}</strong></span>
+              {selectedAction !== 'all' && (
+                <span className="text-indigo-600">
+                  Action : <strong>{selectedAction === 'created' ? 'Créations' : selectedAction === 'updated' ? 'Modifications' : 'Suppressions'}</strong>
+                </span>
+              )}
+              {selectedAction !== 'all' && (
+                <span className="text-indigo-600">
+                  Action : <strong>{selectedAction === 'created' ? 'Créations' : selectedAction === 'updated' ? 'Modifications' : 'Suppressions'}</strong>
+                </span>
+              )}
             </div>
-            {(selectedDate || searchQuery) && (
+            {(selectedDate || searchQuery || selectedAction !== 'all' || selectedUser) && (
               <button
-                onClick={() => {
-                  setSelectedDate('');
-                  setSearchQuery('');
-                }}
-                className="text-amber-600 hover:text-amber-800 underline"
-              >
-                Effacer tous les filtres
+                onClick={clearAllFilters}
               </button>
             )}
           </div>
@@ -268,50 +378,74 @@ export default function HistoryPage() {
                     : "Aucune modification trouvée avec ces filtres"
                   }
                 </p>
-                {(selectedDate || searchQuery) && (
+                {(selectedDate || searchQuery || selectedAction !== 'all' || selectedUser) && (
                   <button
-                    onClick={() => {
-                      setSelectedDate('');
-                      setSearchQuery('');
-                    }}
-                    className="western-btn px-4 py-2 rounded-lg text-sm"
-                  >
-                    Effacer les filtres
+                    onClick={clearAllFilters}
                   </button>
                 )}
               </div>
             ) : (
               filteredModifications.map((mod) => (
                 <div key={mod.id} className="p-4 hover:bg-amber-50 transition-colors">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="flex items-center space-x-3 flex-1 min-w-0">
                       <div className={`w-3 h-3 rounded-full flex-shrink-0 ${
                         mod.action_type === 'created' ? 'bg-green-500' :
                         mod.action_type === 'updated' ? 'bg-blue-500' : 'bg-red-500'
                       }`}></div>
-                      <div className="flex flex-col min-w-0">
+                      <div className="flex flex-col min-w-0 flex-1">
                         <span 
-                          className="font-medium text-gray-800 truncate" 
+                          className="font-medium text-gray-800 truncate text-sm sm:text-base" 
                           title={`ID: ${mod.dish_id}`}
                         >
                           {getDishNameFromModification(mod)}
                         </span>
-                        <span className="text-xs text-gray-500">
-                          {mod.action_type === 'created' ? 'Plat créé' :
-                           mod.action_type === 'updated' ? 'Plat modifié' : 'Plat supprimé'}
-                        </span>
+                        <div className="flex items-center space-x-2 text-xs text-gray-500">
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            mod.action_type === 'created' ? 'bg-green-100 text-green-800' :
+                            mod.action_type === 'updated' ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800'
+                          }`}>
+                            {mod.action_type === 'created' ? '✅ Créé' :
+                             mod.action_type === 'updated' ? '✏️ Modifié' : '🗑️ Supprimé'}
+                          </span>
+                          <span>par {mod.user_email}</span>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-4 text-sm text-gray-500 flex-shrink-0">
-                      <div className="flex items-center space-x-1">
-                        <User className="h-3 w-3" />
-                        <span className="hidden sm:inline truncate max-w-32" title={mod.user_email}>
-                          {mod.user_email}
-                        </span>
-                      </div>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-1 sm:space-y-0 sm:space-x-4 text-xs text-gray-500 flex-shrink-0">
                       <div className="flex items-center space-x-1">
                         <Clock className="h-3 w-3" />
                         <span className="whitespace-nowrap">{formatDate(mod.created_at)}</span>
+                      </div>
+                      {/* Détails des modifications pour les updates */}
+                      {mod.action_type === 'updated' && mod.changes && (
+                        <div className="text-xs">
+                          <details className="cursor-pointer">
+                            <summary className="text-indigo-600 hover:text-indigo-800">
+                              Voir les modifications
+                            </summary>
+                            <div className="mt-2 p-2 bg-gray-50 rounded border text-xs">
+                              {Object.entries(mod.changes).map(([key, value]: [string, any]) => {
+                                if (key === 'old' || key === 'new') return null;
+                                if (typeof value === 'object' && value.old !== undefined && value.new !== undefined) {
+                                  return (
+                                    <div key={key} className="mb-1">
+                                      <strong>{key}:</strong>
+                                      <div className="ml-2">
+                                        <span className="text-red-600">- {JSON.stringify(value.old)}</span>
+                                        <br />
+                                        <span className="text-green-600">+ {JSON.stringify(value.new)}</span>
+                                      </div>
+                                    </div>
+                                  );
+                                }
+                                return null;
+                              })}
+                            </div>
+                          </details>
+                        </div>
+                      )}
+                        </span>
                       </div>
                     </div>
                   </div>

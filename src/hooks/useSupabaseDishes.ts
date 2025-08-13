@@ -373,6 +373,7 @@ export function useSupabaseDishes() {
   const loadAllModifications = async () => {
     try {
       if (!supabase || !isSupabaseConfigured()) {
+        console.log('⚠️ [MODIFICATIONS] Supabase non configuré');
         return;
       }
 
@@ -382,10 +383,11 @@ export function useSupabaseDishes() {
         .from('dish_modifications')
         .select('*')
         .order('created_at', { ascending: false })
-        .limit(200);
+        .limit(500); // Augmenter la limite pour voir plus d'historique
 
       if (error) {
         console.error('Erreur lors du chargement des modifications:', error);
+        console.error('Détails de l\'erreur:', error.message, error.details);
         return;
       }
 
@@ -395,7 +397,7 @@ export function useSupabaseDishes() {
       // Debug détaillé de chaque modification
       if (data && data.length > 0) {
         console.log('🔍 [MODIFICATIONS] === ANALYSE DÉTAILLÉE ===');
-        data.slice(0, 5).forEach((mod, index) => {
+        data.slice(0, 3).forEach((mod, index) => {
           console.log(`🔍 [MODIFICATIONS] Modification ${index + 1}:`, {
             id: mod.id,
             dish_id: mod.dish_id,
@@ -415,6 +417,20 @@ export function useSupabaseDishes() {
             });
           }
         });
+        
+        // Statistiques par type d'action
+        const actionStats = data.reduce((acc, mod) => {
+          acc[mod.action_type] = (acc[mod.action_type] || 0) + 1;
+          return acc;
+        }, {} as Record<string, number>);
+        console.log('🔍 [MODIFICATIONS] Statistiques par action:', actionStats);
+        
+        // Statistiques par utilisateur
+        const userStats = data.reduce((acc, mod) => {
+          acc[mod.user_email] = (acc[mod.user_email] || 0) + 1;
+          return acc;
+        }, {} as Record<string, number>);
+        console.log('🔍 [MODIFICATIONS] Statistiques par utilisateur:', userStats);
       }
       
       setModifications(data || []);

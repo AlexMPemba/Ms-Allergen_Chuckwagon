@@ -306,10 +306,10 @@ export default function AdminPanel() {
             <div className="flex items-center space-x-3">
               <button
                 onClick={() => navigate('/admin/history')}
-                className="flex items-center space-x-2 western-btn px-4 py-2 rounded-lg text-sm"
+                className="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm transition-colors"
               >
                 <History className="h-4 w-4" />
-                <span className="hidden sm:inline">Historique</span>
+                <span className="hidden sm:inline">Historique Global</span>
               </button>
               
               <button
