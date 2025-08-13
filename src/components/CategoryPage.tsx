@@ -103,7 +103,6 @@ export default function CategoryPage() {
           ingredient.toLowerCase().includes(searchQuery.toLowerCase())
         );
       
-      const matchesCategory = dish.categorie === selectedCategory;
       const matchesSubcategory = !selectedSubcategory || dish.sous_categorie === selectedSubcategory;
       
       // Filtrer par allergènes masqués
