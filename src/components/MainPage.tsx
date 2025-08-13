@@ -405,12 +405,12 @@ export default function MainPage() {
                         setShowSubcategoryDropdown(false);
                         setSelectedCategoryForSub(null);
                       }}
-                      className="w-full flex items-center justify-between p-3 rounded-lg transition-all duration-200 bg-blue-100 hover:bg-blue-200 border-2 border-blue-300 hover:border-blue-400"
+                      className="w-full flex items-center justify-center space-x-2 p-4 rounded-lg transition-all duration-200 western-btn hover:scale-105 min-h-[60px]"
                     >
-                      <span className="text-blue-800 font-medium text-sm">
+                      <Layers className="h-5 w-5 text-white flex-shrink-0" />
+                      <span className="text-white text-sm text-center leading-tight font-medium">
                         {subcategory}
                       </span>
-                      <ChevronDown className="h-4 w-4 text-blue-600 rotate-[-90deg]" />
                     </button>
                   ))}
                 </div>
