@@ -1,7 +1,8 @@
 export interface Dish {
   id: string;
   nom: string;
-  categorie: 'entrées' | 'plats' | 'desserts' | 'sauces' | 'huiles' | 'salades' | 'garnitures' | 'fromages';
+  categorie: 'Entrées' | 'Plats' | 'Desserts' | 'Sauces' | 'Accompagnements' | 'Garniture' | 'Fromages' | 'Huiles' | 'Natama' | 'Halal' | 'Casher' | 'Boissons chaudes';
+  sous_categorie?: string | null;
   langue: 'fr' | 'en' | 'es' | 'pt' | 'it';
   langues?: ('fr' | 'en' | 'es' | 'pt' | 'it')[]; // Langues supplémentaires pour l'admin
   ingredients: string[];
@@ -11,7 +12,12 @@ export interface Dish {
 
 export type Language = 'fr' | 'en' | 'es' | 'pt' | 'it';
 export type Language = 'fr' | 'en' | 'es' | 'it' | 'de' | 'nl' | 'pt';
-export type Category = 'entrées' | 'plats' | 'desserts' | 'sauces' | 'huiles' | 'salades' | 'garnitures' | 'fromages' | 'accompagnements' | 'natama';
+export type Category = 'Entrées' | 'Plats' | 'Desserts' | 'Sauces' | 'Accompagnements' | 'Garniture' | 'Fromages' | 'Huiles' | 'Natama' | 'Halal' | 'Casher' | 'Boissons chaudes';
+
+export interface CategoryWithSubcategories {
+  categorie: Category;
+  sous_categorie: string[] | null;
+}
 
 export interface LanguageConfig {
   code: Language;
