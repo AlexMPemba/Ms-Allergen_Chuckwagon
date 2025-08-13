@@ -163,6 +163,25 @@ export default function AdminPanel() {
       return;
     }
 
+    // Confirmation pour les modifications importantes
+    const originalDish = dishes.find(d => d.id === editingDish);
+    if (originalDish) {
+      const hasSignificantChanges = 
+        editForm.nom !== originalDish.nom ||
+        editForm.categorie !== originalDish.categorie ||
+        JSON.stringify(editForm.allergenes) !== JSON.stringify(originalDish.allergenes);
+      
+      if (hasSignificantChanges) {
+        const confirmEdit = window.confirm(
+          `📝 CONFIRMATION DE MODIFICATION\n\nVous allez modifier le plat :\n"${originalDish.nom}"\n\nNouvelles informations :\n• Nom : ${editForm.nom}\n• Catégorie : ${editForm.categorie}\n• Allergènes : ${(editForm.allergenes || []).join(', ') || 'Aucun'}\n\nConfirmer les modifications ?`
+        );
+        
+        if (!confirmEdit) {
+          return;
+        }
+      }
+    }
+
     setOperationLoading(true);
     setOperationError(null);
     
@@ -197,7 +216,20 @@ export default function AdminPanel() {
 
   // Supprimer un plat
   const handleDeleteDish = async (dishId: string, dishName: string) => {
-    if (!window.confirm(`Êtes-vous sûr de vouloir supprimer "${dishName}" ?`)) {
+    // Double confirmation pour la suppression
+    const firstConfirm = window.confirm(
+      `⚠️ ATTENTION ⚠️\n\nVous êtes sur le point de supprimer le plat :\n"${dishName}"\n\nCette action est irréversible.\n\nVoulez-vous continuer ?`
+    );
+    
+    if (!firstConfirm) {
+      return;
+    }
+    
+    const secondConfirm = window.confirm(
+      `🚨 CONFIRMATION FINALE 🚨\n\nDernière chance !\n\nSupprimer définitivement "${dishName}" ?\n\n✅ OUI = Supprimer\n❌ NON = Annuler`
+    );
+    
+    if (!secondConfirm) {
       return;
     }
 

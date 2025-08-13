@@ -36,10 +36,13 @@ export default function HistoryPage() {
       return mod.dish_name;
     }
 
-    // Pour les créations et suppressions, le nom est directement dans changes
-    if (mod.action_type === 'created' || mod.action_type === 'deleted') {
-      const name = mod.changes?.nom || mod.changes?.deleted_dish?.nom;
-      return name || 'Nom non disponible';
+    // Priorité 2 : Extraire depuis changes selon le type d'action
+    if (mod.action_type === 'created') {
+      return mod.changes?.nom || 'Nom non disponible';
+    }
+    
+    if (mod.action_type === 'deleted') {
+      return mod.changes?.deleted_dish?.nom || mod.changes?.nom || 'Plat supprimé';
     }
 
     // Pour les modifications, chercher dans les changements
@@ -356,13 +359,13 @@ export default function HistoryPage() {
                           {/* Indicateur pour plats supprimés */}
                           {mod.action_type === 'deleted' && (
                             <span className="text-xs px-2 py-1 bg-red-100 text-red-800 rounded-full border border-red-600 flex-shrink-0">
-                              SUPPRIMÉ
+                              🗑️ SUPPRIMÉ
                             </span>
                           )}
                           {/* Indicateur pour modifications orphelines */}
                           {mod.dish_id && !dishes.find(d => d.id === mod.dish_id) && mod.action_type !== 'deleted' && (
                             <span className="text-xs px-2 py-1 bg-orange-100 text-orange-800 rounded-full border border-orange-600 flex-shrink-0">
-                              PLAT SUPPRIMÉ
+                              ⚠️ PLAT SUPPRIMÉ
                             </span>
                           )}
                         </div>
@@ -371,7 +374,7 @@ export default function HistoryPage() {
                             mod.action_type === 'created' ? 'bg-green-100 text-green-800' :
                             mod.action_type === 'updated' ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800'
                           }`}>
-                            {mod.action_type === 'created' ? '✅ Créé' :
+                            {mod.action_type === 'created' ? '➕ Créé' :
                              mod.action_type === 'updated' ? '✏️ Modifié' : '🗑️ Supprimé'}
                           </span>
                           <span>par {mod.user_email}</span>
@@ -393,7 +396,7 @@ export default function HistoryPage() {
                         <div className="text-xs">
                           <details className="cursor-pointer">
                             <summary className="text-indigo-600 hover:text-indigo-800">
-                              Voir les modifications
+                              📋 Voir les modifications détaillées
                             </summary>
                             <div className="mt-2 p-2 bg-gray-50 rounded border text-xs">
                               {Object.entries(mod.changes).map(([key, value]: [string, any]) => {
@@ -412,6 +415,35 @@ export default function HistoryPage() {
                                 }
                                 return null;
                               })}
+                            </div>
+                          </details>
+                        </div>
+                      )}
+                      {/* Détails pour les suppressions */}
+                      {mod.action_type === 'deleted' && mod.changes?.deleted_dish && (
+                        <div className="text-xs">
+                          <details className="cursor-pointer">
+                            <summary className="text-red-600 hover:text-red-800">
+                              🗑️ Voir les détails de la suppression
+                            </summary>
+                            <div className="mt-2 p-2 bg-red-50 rounded border text-xs">
+                              <div className="mb-1">
+                                <strong>Plat supprimé :</strong> {mod.changes.deleted_dish.nom}
+                              </div>
+                              <div className="mb-1">
+                                <strong>Catégorie :</strong> {mod.changes.deleted_dish.categorie}
+                              </div>
+                              <div className="mb-1">
+                                <strong>Ingrédients :</strong> {(mod.changes.deleted_dish.ingredients || []).join(', ') || 'Aucun'}
+                              </div>
+                              <div className="mb-1">
+                                <strong>Allergènes :</strong> {(mod.changes.deleted_dish.allergenes || []).join(', ') || 'Aucun'}
+                              </div>
+                              {mod.changes.deletion_timestamp && (
+                                <div className="text-red-600 font-medium">
+                                  <strong>Supprimé le :</strong> {new Date(mod.changes.deletion_timestamp).toLocaleString('fr-FR')}
+                                </div>
+                              )}
                             </div>
                           </details>
                         </div>
