@@ -422,9 +422,9 @@ export default function MainPage() {
                     setSelectedCategoryForSub(null);
                     setShowCategoryDropdown(true);
                   }}
-                  className="w-full mt-4 p-3 rounded-lg bg-gray-500 hover:bg-gray-600 text-white font-medium transition-colors"
+                  className="w-full mt-4 flex items-center justify-center p-3 rounded-lg text-amber-800 hover:text-amber-900 hover:bg-amber-100 transition-colors"
                 >
-                  ← Retour aux catégories
+                  <ArrowLeft className="h-5 w-5" />
                 </button>
               </div>
             </div>
