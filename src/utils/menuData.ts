@@ -4,7 +4,8 @@ export const completeA2Menu: Omit<Dish, 'id'>[] = [
   // PLATS PRINCIPAUX
   {
     nom: 'Aiguillettes de limande',
-    categorie: 'plats',
+    categorie: 'Plats',
+    sous_categorie: null,
     langue: 'fr',
     ingredients: ['limande', 'beurre', 'citron', 'persil', 'huile d\'olive'],
     allergenes: ['Poisson'],
@@ -12,7 +13,8 @@ export const completeA2Menu: Omit<Dish, 'id'>[] = [
   },
   {
     nom: 'Manchons de poulet aux épices',
-    categorie: 'plats',
+    categorie: 'Plats',
+    sous_categorie: null,
     langue: 'fr',
     ingredients: ['poulet', 'paprika', 'cumin', 'thym', 'huile d\'olive'],
     allergenes: [],

@@ -39,6 +39,7 @@ export interface DatabaseDish {
   id: string;
   nom: string;
   categorie: string;
+  sous_categorie: string | null;
   langue: string;
   ingredients: string[];
   allergenes: string[];
@@ -57,4 +58,5 @@ export interface DishModification {
   created_at: string;
   dish_name?: string;
   dish_category?: string;
+  dish_sous_category?: string;
 }

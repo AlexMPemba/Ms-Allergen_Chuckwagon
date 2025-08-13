@@ -82,9 +82,13 @@ export default function AdminPanel() {
 
   // Catégories disponibles
   const categoryOptions: Category[] = [
-    'entrées', 'plats', 'desserts', 'sauces', 
-    'huiles', 'salades', 'garnitures', 'fromages'
+    'Entrées', 'Plats', 'Desserts', 'Sauces', 
+    'Accompagnements', 'Garniture', 'Fromages', 'Huiles',
+    'Natama', 'Halal', 'Casher', 'Boissons chaudes'
   ];
+
+  // Import des configurations de catégories
+  const { categoriesConfig, getSubcategoriesForCategory } = require('../data/categories');
 
   // Filtrer les plats
   const filteredDishes = dishes.filter(dish => {
@@ -116,6 +120,13 @@ export default function AdminPanel() {
       return;
     }
 
+    // Validation de la sous-catégorie
+    const validSubcategories = getSubcategoriesForCategory(newDish.categorie);
+    if (validSubcategories && newDish.sous_categorie && !validSubcategories.includes(newDish.sous_categorie)) {
+      setOperationError('Sous-catégorie invalide pour cette catégorie');
+      return;
+    }
+
     setOperationLoading(true);
     setOperationError(null);
     
@@ -130,11 +141,12 @@ export default function AdminPanel() {
       // Réinitialiser le formulaire
       setNewDish({
         nom: '',
-        categorie: 'plats',
+        categorie: 'Plats',
         langue: 'fr',
         ingredients: [],
         allergenes: [],
-        image: ''
+        image: '',
+        sous_categorie: null
       });
       setIsAddingDish(false);
       
@@ -163,17 +175,27 @@ export default function AdminPanel() {
       return;
     }
 
+    // Validation de la sous-catégorie pour l'édition
+    if (editForm.categorie) {
+      const validSubcategories = getSubcategoriesForCategory(editForm.categorie);
+      if (validSubcategories && editForm.sous_categorie && !validSubcategories.includes(editForm.sous_categorie)) {
+        setOperationError('Sous-catégorie invalide pour cette catégorie');
+        return;
+      }
+    }
+
     // Confirmation pour les modifications importantes
     const originalDish = dishes.find(d => d.id === editingDish);
     if (originalDish) {
       const hasSignificantChanges = 
         editForm.nom !== originalDish.nom ||
         editForm.categorie !== originalDish.categorie ||
+        editForm.sous_categorie !== originalDish.sous_categorie ||
         JSON.stringify(editForm.allergenes) !== JSON.stringify(originalDish.allergenes);
       
       if (hasSignificantChanges) {
         const confirmEdit = window.confirm(
-          `📝 CONFIRMATION DE MODIFICATION\n\nVous allez modifier le plat :\n"${originalDish.nom}"\n\nNouvelles informations :\n• Nom : ${editForm.nom}\n• Catégorie : ${editForm.categorie}\n• Allergènes : ${(editForm.allergenes || []).join(', ') || 'Aucun'}\n\nConfirmer les modifications ?`
+          `📝 CONFIRMATION DE MODIFICATION\n\nVous allez modifier le plat :\n"${originalDish.nom}"\n\nNouvelles informations :\n• Nom : ${editForm.nom}\n• Catégorie : ${editForm.categorie}\n• Sous-catégorie : ${editForm.sous_categorie || 'Aucune'}\n• Allergènes : ${(editForm.allergenes || []).join(', ') || 'Aucun'}\n\nConfirmer les modifications ?`
         );
         
         if (!confirmEdit) {
@@ -511,7 +533,14 @@ export default function AdminPanel() {
                 </label>
                 <select
                   value={newDish.categorie}
-                  onChange={(e) => setNewDish({ ...newDish, categorie: e.target.value as Category })}
+                  onChange={(e) => {
+                    const newCategory = e.target.value as Category;
+                    setNewDish({ 
+                      ...newDish, 
+                      categorie: newCategory,
+                      sous_categorie: null // Reset sous-catégorie quand on change de catégorie
+                    });
+                  }}
                   className="w-full p-3 western-input rounded-lg focus:ring-2 focus:ring-amber-500"
                 >
                   {categoryOptions.map(cat => (
@@ -520,6 +549,30 @@ export default function AdminPanel() {
                     </option>
                   ))}
                 </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium western-subtitle mb-2">
+                  Sous-catégorie
+                </label>
+                <select
+                  value={newDish.sous_categorie || ''}
+                  onChange={(e) => setNewDish({ ...newDish, sous_categorie: e.target.value || null })}
+                  className="w-full p-3 western-input rounded-lg focus:ring-2 focus:ring-amber-500"
+                  disabled={!getSubcategoriesForCategory(newDish.categorie)}
+                >
+                  <option value="">Aucune sous-catégorie</option>
+                  {getSubcategoriesForCategory(newDish.categorie)?.map(subcat => (
+                    <option key={subcat} value={subcat}>
+                      {subcat}
+                    </option>
+                  ))}
+                </select>
+                {!getSubcategoriesForCategory(newDish.categorie) && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    Cette catégorie n'a pas de sous-catégories
+                  </p>
+                )}
               </div>
               
               <div>
@@ -691,6 +744,24 @@ export default function AdminPanel() {
                         
                         <div>
                           <label className="block text-sm font-medium western-subtitle mb-2">
+                            Sous-catégorie
+                          </label>
+                          <select
+                            value={editForm.sous_categorie || ''}
+                            onChange={(e) => setEditForm({ ...editForm, sous_categorie: e.target.value || null })}
+                            className="w-full p-2 western-input rounded-lg focus:ring-2 focus:ring-amber-500 text-sm"
+                          >
+                            <option value="">Aucune sous-catégorie</option>
+                            {getSubcategoriesForCategory(editForm.categorie || dish.categorie)?.map(subcat => (
+                              <option key={subcat} value={subcat}>
+                                {subcat}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium western-subtitle mb-2">
                             URL de l'image
                           </label>
                           <input
@@ -770,6 +841,9 @@ export default function AdminPanel() {
                             <h3 className="font-semibold text-gray-800 truncate">{dish.nom}</h3>
                             <span className="text-xs px-2 py-1 bg-amber-100 text-amber-800 rounded-full border border-amber-600 flex-shrink-0">
                               {categories.fr[dish.categorie]}
+                              {dish.sous_categorie && (
+                                <span className="ml-1 text-xs">• {dish.sous_categorie}</span>
+                              )}
                             </span>
                           </div>
                           <div className="flex flex-wrap gap-1 mb-1">

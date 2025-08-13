@@ -116,9 +116,16 @@ export default function DishDetail() {
           <div className="p-4 sm:p-6 md:p-8">
             <div className="mb-6">
               <h1 className="text-2xl sm:text-3xl md:text-4xl western-title mb-2 western-ornament">{dish.nom}</h1>
-              <span className="inline-block px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm font-medium border border-amber-600">
-                <span className="menu-text">{categories[lang][dish.categorie]}</span>
-              </span>
+              <div className="flex flex-wrap gap-2">
+                <span className="inline-block px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm font-medium border border-amber-600">
+                  <span className="menu-text">{categories[lang][dish.categorie]}</span>
+                </span>
+                {dish.sous_categorie && (
+                  <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium border border-blue-600">
+                    <span className="menu-text">{dish.sous_categorie}</span>
+                  </span>
+                )}
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">

@@ -322,6 +322,9 @@ export default function CategoryPage() {
                               className="text-xs px-1.5 py-0.5 bg-red-200 text-red-800 rounded-full border border-red-600"
                             >
                               {allergenTranslations[lang]?.[allergen] || allergen}
+                              {dish.sous_categorie && (
+                                <span className="ml-1">• {dish.sous_categorie}</span>
+                              )}
                             </span>
                           ))}
                         </div>

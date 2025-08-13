@@ -102,30 +102,36 @@ export default function MainPage() {
     navigate(`/${lang}/category/${category}`);
   };
 
-  const categoryOptions: Category[] = ['entrées', 'plats', 'desserts', 'sauces', 'huiles', 'salades', 'garnitures', 'fromages', 'accompagnements', 'natama'];
+  const categoryOptions: Category[] = ['Entrées', 'Plats', 'Desserts', 'Sauces', 'Accompagnements', 'Garniture', 'Fromages', 'Huiles', 'Natama', 'Halal', 'Casher', 'Boissons chaudes'];
 
   const categoryIcons = {
-    'entrées': UtensilsCrossed,
-    'plats': Utensils,
-    'desserts': Cookie,
-    'sauces': Droplets,
-    'huiles': Droplets,
-    'salades': Salad,
-    'garnitures': Layers,
-    'fromages': Triangle,
-    'accompagnements': Utensils,
-    'natama': Coffee
+    'Entrées': UtensilsCrossed,
+    'Plats': Utensils,
+    'Desserts': Cookie,
+    'Sauces': Droplets,
+    'Accompagnements': Utensils,
+    'Garniture': Layers,
+    'Fromages': Triangle,
+    'Huiles': Droplets,
+    'Natama': Coffee,
+    'Halal': UtensilsCrossed,
+    'Casher': UtensilsCrossed,
+    'Boissons chaudes': Coffee
   };
 
   const categoryImages = {
-    'entrées': 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400',
-    'plats': 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=400',
-    'desserts': 'https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=400',
-    'sauces': 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=400',
-    'huiles': 'https://images.pexels.com/photos/33783/olive-oil-salad-dressing-cooking-olive.jpg?auto=compress&cs=tinysrgb&w=400',
-    'salades': 'https://images.pexels.com/photos/1213710/pexels-photo-1213710.jpeg?auto=compress&cs=tinysrgb&w=400',
-    'garnitures': 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400',
-    'fromages': 'https://images.pexels.com/photos/773253/pexels-photo-773253.jpeg?auto=compress&cs=tinysrgb&w=400'
+    'Entrées': 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400',
+    'Plats': 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=400',
+    'Desserts': 'https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=400',
+    'Sauces': 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=400',
+    'Accompagnements': 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400',
+    'Garniture': 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400',
+    'Fromages': 'https://images.pexels.com/photos/773253/pexels-photo-773253.jpeg?auto=compress&cs=tinysrgb&w=400',
+    'Huiles': 'https://images.pexels.com/photos/33783/olive-oil-salad-dressing-cooking-olive.jpg?auto=compress&cs=tinysrgb&w=400',
+    'Natama': 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400',
+    'Halal': 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=400',
+    'Casher': 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=400',
+    'Boissons chaudes': 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=400'
   };
 
   return (
