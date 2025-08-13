@@ -66,6 +66,29 @@ export default function HistoryPage() {
     return 'Nom non disponible';
   };
 
+  // Fonction pour obtenir la catégorie du plat depuis les modifications
+  const getDishCategoryFromModification = (mod: DishModification) => {
+    // Priorité 1 : Utiliser dish_category si disponible
+    if (mod.dish_category) {
+      return mod.dish_category;
+    }
+
+    // Priorité 2 : Extraire depuis changes
+    if (mod.action_type === 'deleted') {
+      return mod.changes?.deleted_dish?.categorie || mod.changes?.categorie || 'Catégorie inconnue';
+    }
+
+    if (mod.action_type === 'created') {
+      return mod.changes?.categorie || 'Catégorie inconnue';
+    }
+
+    if (mod.action_type === 'updated') {
+      return mod.changes?.new?.categorie || mod.changes?.old?.categorie || 'Catégorie inconnue';
+    }
+
+    return 'Catégorie inconnue';
+  };
+
   // Formater la date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -341,7 +364,11 @@ export default function HistoryPage() {
               </div>
             ) : (
               filteredModifications.map((mod) => (
-                <div key={mod.id} className="p-4 hover:bg-amber-50 transition-colors">
+                <div key={mod.id} className={`p-4 transition-colors border-l-4 ${
+                  mod.action_type === 'created' ? 'border-green-500 hover:bg-green-50' :
+                  mod.action_type === 'updated' ? 'border-blue-500 hover:bg-blue-50' :
+                  'border-red-500 hover:bg-red-50'
+                }`}>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="flex items-center space-x-3 flex-1 min-w-0">
                       <div className={`w-3 h-3 rounded-full flex-shrink-0 ${
@@ -349,17 +376,19 @@ export default function HistoryPage() {
                         mod.action_type === 'updated' ? 'bg-blue-500' : 'bg-red-500'
                       }`}></div>
                       <div className="flex flex-col min-w-0 flex-1">
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-2 mb-1">
                           <span 
-                            className="font-medium text-gray-800 truncate text-sm sm:text-base" 
+                            className={`font-medium truncate text-sm sm:text-base ${
+                              mod.action_type === 'deleted' ? 'text-red-800 line-through' : 'text-gray-800'
+                            }`}
                             title={`ID: ${mod.dish_id}`}
                           >
                             {getDishNameFromModification(mod)}
                           </span>
                           {/* Indicateur pour plats supprimés */}
                           {mod.action_type === 'deleted' && (
-                            <span className="text-xs px-2 py-1 bg-red-100 text-red-800 rounded-full border border-red-600 flex-shrink-0">
-                              🗑️ SUPPRIMÉ
+                            <span className="text-xs px-2 py-1 bg-red-600 text-white rounded-full border border-red-700 flex-shrink-0 font-bold animate-pulse">
+                              🗑️ SUPPRIMÉ DÉFINITIVEMENT
                             </span>
                           )}
                           {/* Indicateur pour modifications orphelines */}
@@ -369,18 +398,26 @@ export default function HistoryPage() {
                             </span>
                           )}
                         </div>
-                        <div className="flex items-center space-x-2 text-xs text-gray-500">
+                        <div className="flex flex-wrap items-center gap-2 text-xs">
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                            mod.action_type === 'created' ? 'bg-green-100 text-green-800' :
-                            mod.action_type === 'updated' ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800'
+                            mod.action_type === 'created' ? 'bg-green-100 text-green-800 border border-green-600' :
+                            mod.action_type === 'updated' ? 'bg-blue-100 text-blue-800 border border-blue-600' : 
+                            'bg-red-100 text-red-800 border border-red-600'
                           }`}>
                             {mod.action_type === 'created' ? '➕ Créé' :
                              mod.action_type === 'updated' ? '✏️ Modifié' : '🗑️ Supprimé'}
                           </span>
-                          <span>par {mod.user_email}</span>
-                          {mod.dish_category && (
-                            <span className="text-xs px-1.5 py-0.5 bg-amber-100 text-amber-800 rounded-full">
-                              {mod.dish_category}
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            mod.user_email === 'system' ? 'bg-gray-100 text-gray-600' : 'bg-indigo-100 text-indigo-800 border border-indigo-600'
+                          }`}>
+                            👤 {mod.user_email}
+                          </span>
+                          <span className="text-xs px-1.5 py-0.5 bg-amber-100 text-amber-800 rounded-full border border-amber-600">
+                            📂 {getDishCategoryFromModification(mod)}
+                          </span>
+                          {mod.action_type === 'deleted' && (
+                            <span className="text-xs px-2 py-1 bg-red-200 text-red-900 rounded-full border border-red-600 font-bold">
+                              ⚠️ HISTORIQUE CONSERVÉ
                             </span>
                           )}
                         </div>
@@ -423,27 +460,102 @@ export default function HistoryPage() {
                       {mod.action_type === 'deleted' && mod.changes?.deleted_dish && (
                         <div className="text-xs">
                           <details className="cursor-pointer">
-                            <summary className="text-red-600 hover:text-red-800">
-                              🗑️ Voir les détails de la suppression
+                            <summary className="text-red-600 hover:text-red-800 font-bold">
+                              🗑️ DÉTAILS DE LA SUPPRESSION
                             </summary>
-                            <div className="mt-2 p-2 bg-red-50 rounded border text-xs">
-                              <div className="mb-1">
-                                <strong>Plat supprimé :</strong> {mod.changes.deleted_dish.nom}
+                            <div className="mt-2 p-3 bg-red-50 rounded border-2 border-red-200 text-xs">
+                              <div className="bg-red-100 p-2 rounded mb-2 border border-red-300">
+                                <div className="font-bold text-red-900 mb-1">🚨 PLAT SUPPRIMÉ DÉFINITIVEMENT</div>
+                                <div className="text-red-800">
+                                  Supprimé par : <strong>{mod.user_email}</strong>
+                                </div>
+                                <div className="text-red-800">
+                                  Date : <strong>{formatDate(mod.created_at)}</strong>
+                                </div>
                               </div>
                               <div className="mb-1">
-                                <strong>Catégorie :</strong> {mod.changes.deleted_dish.categorie}
+                                <strong>📝 Nom du plat :</strong> 
+                                <span className="ml-1 font-bold text-red-800">{mod.changes.deleted_dish.nom}</span>
                               </div>
                               <div className="mb-1">
-                                <strong>Ingrédients :</strong> {(mod.changes.deleted_dish.ingredients || []).join(', ') || 'Aucun'}
+                                <strong>📂 Catégorie :</strong> 
+                                <span className="ml-1 font-medium text-red-700">{mod.changes.deleted_dish.categorie}</span>
                               </div>
                               <div className="mb-1">
-                                <strong>Allergènes :</strong> {(mod.changes.deleted_dish.allergenes || []).join(', ') || 'Aucun'}
+                                <strong>🥘 Ingrédients :</strong> 
+                                <span className="ml-1 text-gray-700">
+                                  {(mod.changes.deleted_dish.ingredients || []).join(', ') || 'Aucun ingrédient'}
+                                </span>
+                              </div>
+                              <div className="mb-1">
+                                <strong>⚠️ Allergènes :</strong> 
+                                <span className="ml-1 text-red-700 font-medium">
+                                  {(mod.changes.deleted_dish.allergenes || []).join(', ') || 'Aucun allergène'}
+                                </span>
                               </div>
                               {mod.changes.deletion_timestamp && (
-                                <div className="text-red-600 font-medium">
-                                  <strong>Supprimé le :</strong> {new Date(mod.changes.deletion_timestamp).toLocaleString('fr-FR')}
+                                <div className="mt-2 p-2 bg-red-200 rounded border border-red-400">
+                                  <div className="text-red-900 font-bold text-center">
+                                    🕒 HORODATAGE DE SUPPRESSION
+                                  </div>
+                                  <div className="text-red-800 text-center">
+                                    {new Date(mod.changes.deletion_timestamp).toLocaleString('fr-FR')}
+                                  </div>
                                 </div>
                               )}
+                              {mod.changes.deleted_dish.image_url && (
+                                <div className="mt-2">
+                                  <strong>🖼️ Image :</strong>
+                                  <div className="mt-1">
+                                    <img 
+                                      src={mod.changes.deleted_dish.image_url} 
+                                      alt="Image du plat supprimé"
+                                      className="w-16 h-12 object-cover rounded border border-red-400"
+                                    />
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </details>
+                        </div>
+                      )}
+                      {/* Détails pour les créations */}
+                      {mod.action_type === 'created' && (
+                        <div className="text-xs">
+                          <details className="cursor-pointer">
+                            <summary className="text-green-600 hover:text-green-800 font-medium">
+                              ➕ Voir les détails de la création
+                            </summary>
+                            <div className="mt-2 p-3 bg-green-50 rounded border-2 border-green-200 text-xs">
+                              <div className="bg-green-100 p-2 rounded mb-2 border border-green-300">
+                                <div className="font-bold text-green-900 mb-1">✨ NOUVEAU PLAT CRÉÉ</div>
+                                <div className="text-green-800">
+                                  Créé par : <strong>{mod.user_email}</strong>
+                                </div>
+                                <div className="text-green-800">
+                                  Date : <strong>{formatDate(mod.created_at)}</strong>
+                                </div>
+                              </div>
+                              <div className="mb-1">
+                                <strong>📝 Nom :</strong> 
+                                <span className="ml-1 font-bold text-green-800">{mod.changes?.nom}</span>
+                              </div>
+                              <div className="mb-1">
+                                <strong>📂 Catégorie :</strong> 
+                                <span className="ml-1 font-medium text-green-700">{mod.changes?.categorie}</span>
+                              </div>
+                              <div className="mb-1">
+                                <strong>🥘 Ingrédients :</strong> 
+                                <span className="ml-1 text-gray-700">
+                                  {(mod.changes?.ingredients || []).join(', ') || 'Aucun ingrédient'}
+                                </span>
+                              </div>
+                              <div className="mb-1">
+                                <strong>⚠️ Allergènes :</strong> 
+                                <span className="ml-1 text-orange-700 font-medium">
+                                  {(mod.changes?.allergenes || []).join(', ') || 'Aucun allergène'}
+                                </span>
+                              </div>
                             </div>
                           </details>
                         </div>
@@ -453,6 +565,63 @@ export default function HistoryPage() {
                 </div>
               ))
             )}
+          </div>
+        </div>
+
+        {/* Statistiques en bas de page */}
+        <div className="mt-6 western-card rounded-lg shadow-sm p-4">
+          <h3 className="text-lg font-semibold western-subtitle mb-3 flex items-center space-x-2">
+            <History className="h-5 w-5" />
+            <span>Statistiques de l'historique</span>
+          </h3>
+          
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+            <div className="bg-green-50 border-2 border-green-200 rounded-lg p-3">
+              <div className="text-2xl font-bold text-green-600">
+                {modifications.filter(m => m.action_type === 'created').length}
+              </div>
+              <div className="text-xs text-green-700 font-medium">Créations</div>
+            </div>
+            
+            <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-3">
+              <div className="text-2xl font-bold text-blue-600">
+                {modifications.filter(m => m.action_type === 'updated').length}
+              </div>
+              <div className="text-xs text-blue-700 font-medium">Modifications</div>
+            </div>
+            
+            <div className="bg-red-50 border-2 border-red-200 rounded-lg p-3">
+              <div className="text-2xl font-bold text-red-600">
+                {modifications.filter(m => m.action_type === 'deleted').length}
+              </div>
+              <div className="text-xs text-red-700 font-medium">Suppressions</div>
+            </div>
+            
+            <div className="bg-amber-50 border-2 border-amber-200 rounded-lg p-3">
+              <div className="text-2xl font-bold text-amber-600">
+                {modifications.length}
+              </div>
+              <div className="text-xs text-amber-700 font-medium">Total</div>
+            </div>
+          </div>
+          
+          {/* Utilisateurs actifs */}
+          <div className="mt-4 pt-4 border-t border-amber-200">
+            <h4 className="text-sm font-medium western-subtitle mb-2">👥 Administrateurs actifs :</h4>
+            <div className="flex flex-wrap gap-2">
+              {Array.from(new Set(modifications.map(m => m.user_email))).map(email => (
+                <span 
+                  key={email}
+                  className={`text-xs px-2 py-1 rounded-full border ${
+                    email === 'system' 
+                      ? 'bg-gray-100 text-gray-600 border-gray-300' 
+                      : 'bg-indigo-100 text-indigo-800 border-indigo-600 font-medium'
+                  }`}
+                >
+                  {email} ({modifications.filter(m => m.user_email === email).length})
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
