@@ -47,21 +47,17 @@ export default function AllergenSelectionPage() {
   // Effet pour gérer l'affichage de la bulle Natama
   useEffect(() => {
     if (selectedAllergens.length >= 3) {
-      // Afficher la bulle après 3 secondes
-      const showTimer = setTimeout(() => {
-        setShowNatamaBubble(true);
-        setBubbleVisible(true);
-        
-        // Commencer le clignotement toutes les 6 secondes
-        const blinkInterval = setInterval(() => {
-          setBubbleVisible(false);
-          setTimeout(() => setBubbleVisible(true), 300);
-        }, 6000);
-        
-        return () => clearInterval(blinkInterval);
-      }, 3000);
+      // Afficher la bulle immédiatement
+      setShowNatamaBubble(true);
+      setBubbleVisible(true);
       
-      return () => clearTimeout(showTimer);
+      // Commencer le clignotement toutes les 6 secondes
+      const blinkInterval = setInterval(() => {
+        setBubbleVisible(false);
+        setTimeout(() => setBubbleVisible(true), 300);
+      }, 6000);
+      
+      return () => clearInterval(blinkInterval);
     } else {
       // Masquer la bulle si moins de 3 allergènes
       setShowNatamaBubble(false);
