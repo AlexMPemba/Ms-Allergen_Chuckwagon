@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Search, ChefHat, Settings, Utensils, Coffee, Cookie, Droplets, Salad, UtensilsCrossed, Globe, Apple, UserCheck as Cheese, X, Grid3X3, List, Layers, ChevronDown, Filter } from 'lucide-react';
+import { Search, ChefHat, Settings, Utensils, Coffee, Cookie, Droplets, Salad, UtensilsCrossed, Globe, Apple, UserCheck as Cheese, X, Grid3X3, List, Layers, ChevronDown, Filter, ArrowLeft } from 'lucide-react';
 import { Triangle } from 'lucide-react';
 import { Language, Category } from '../types';
 import { useDishes } from '../hooks/useDishes';
