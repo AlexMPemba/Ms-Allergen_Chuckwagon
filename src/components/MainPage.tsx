@@ -340,19 +340,12 @@ export default function MainPage() {
                         onClick={() => {
                           handleCategoryClick(category);
                         }}
-                        className={`flex flex-col items-center justify-center space-y-2 p-3 sm:p-4 lg:p-5 rounded-lg transition-all duration-200 western-btn hover:scale-105 min-h-[85px] sm:min-h-[95px] lg:min-h-[105px] w-full relative ${
-                          hasSubcategories ? 'border-2 border-blue-400' : ''
-                        }`}
+                        className="flex flex-col items-center justify-center space-y-2 p-3 sm:p-4 lg:p-5 rounded-lg transition-all duration-200 western-btn hover:scale-105 min-h-[85px] sm:min-h-[95px] lg:min-h-[105px] w-full"
                       >
                         <IconComponent className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7 text-white flex-shrink-0" />
                         <span className="text-white text-xs sm:text-sm lg:text-base text-center leading-tight font-medium px-1">
                           {categories[lang][category]}
                         </span>
-                        {hasSubcategories && (
-                          <div className="absolute top-1 right-1 bg-blue-500 text-white text-xs px-1 py-0.5 rounded-full">
-                            {hasSubcategories.length}
-                          </div>
-                        )}
                       </button>
                     );
                   })}
