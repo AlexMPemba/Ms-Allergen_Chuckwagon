@@ -849,7 +849,7 @@ export default function AdminPanel() {
                             <span className="text-xs px-2 py-1 bg-amber-100 text-amber-800 rounded-full border border-amber-600 flex-shrink-0">
                               {categories.fr[dish.categorie]}
                               {dish.sous_categorie && (
-                                <span className="ml-1 text-xs">• {dish.sous_categorie}</span>
+                                <span className="ml-1 text-xs text-blue-600">• {dish.sous_categorie}</span>
                               )}
                             </span>
                           </div>
