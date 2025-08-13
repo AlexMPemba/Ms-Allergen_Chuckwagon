@@ -308,7 +308,7 @@ export const translations: Translations = {
     pt: 'Selecione suas alergias',
   },
   allergenSelectionDescription: {
-    fr: 'Sélectionnez les allergènes auxquels vous êtes allergique pour filtrer automatiquement les plats.',
+    fr: 'Sélectionnez les allergènes auxquels vous êtes allergique pour les retirer de la liste des plats.',
     en: 'Select the allergens you are allergic to in order to automatically filter dishes.',
     es: 'Seleccione los alérgenos a los que es alérgico para filtrar automáticamente los platos.',
     it: 'Seleziona gli allergeni a cui sei allergico per filtrare automaticamente i piatti.',
