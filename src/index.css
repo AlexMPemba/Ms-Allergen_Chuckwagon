@@ -1,0 +1,669 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Rye:wght@400&family=Cinzel:wght@400;500;600&family=Playfair+Display:wght@400;500;600;700&family=Crimson+Text:wght@400;600;700&display=swap');
+
+/* Western vintage background texture */
+.western-bg {
+  background: linear-gradient(45deg, #f4e4bc 0%, #e8d5a3 25%, #f4e4bc 50%, #e8d5a3 75%, #f4e4bc 100%);
+  background-size: 20px 20px;
+  position: relative;
+}
+
+.western-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(139, 69, 19, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, rgba(160, 82, 45, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+}
+
+/* Western ornament decorations */
+.western-ornament {
+  position: relative;
+  text-align: center;
+}
+
+.western-ornament::before,
+.western-ornament::after {
+  content: '◆';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8B4513;
+  font-size: 1.2rem;
+  display: none; /* Masquer sur mobile par défaut */
+}
+
+/* Afficher les ornements seulement sur écrans moyens et plus */
+@media (min-width: 768px) {
+  .western-ornament::before,
+  .western-ornament::after {
+    display: block;
+  }
+}
+
+.western-ornament::before {
+  left: -2rem;
+}
+
+.western-ornament::after {
+  right: -2rem;
+}
+
+/* Western card style */
+.western-card {
+  background: linear-gradient(135deg, #f5e6d3 0%, #e8d5a3 100%);
+  border: 2px solid #8B4513;
+  box-shadow: 
+    0 4px 8px rgba(139, 69, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+}
+
+
+/* Western button style */
+.western-btn {
+  background: linear-gradient(135deg, #D2691E 0%, #A0522D 100%);
+  border: 2px solid #8B4513;
+  color: #f5e6d3;
+  font-family: 'Crimson Text', serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 
+    0 4px 8px rgba(139, 69, 19, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform: translateY(0);
+  cursor: pointer;
+}
+
+.western-btn:hover {
+  background: linear-gradient(135deg, #CD853F 0%, #8B4513 100%);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 
+    0 8px 20px rgba(139, 69, 19, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.western-btn:active {
+  transform: translateY(-1px) scale(0.98);
+  transition: all 0.1s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 
+    0 2px 4px rgba(139, 69, 19, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+/* Western title font */
+/* Boutons d'administration spécifiques */
+.admin-btn {
+  background: linear-gradient(135deg, #D2691E 0%, #A0522D 100%);
+  border: 2px solid #8B4513;
+  color: #f5e6d3;
+  font-family: 'Crimson Text', serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 
+    0 4px 8px rgba(139, 69, 19, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+.western-title {
+  font-family: 'Rye', 'Playfair Display', serif;
+  color: #8B4513;
+  text-shadow: 2px 2px 4px rgba(139, 69, 19, 0.3);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.western-subtitle {
+  font-family: 'Crimson Text', 'Playfair Display', serif;
+  color: #A0522D;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+}
+
+/* Western input style */
+.western-input {
+  background: #f5e6d3;
+  border: 2px solid #8B4513;
+  color: #8B4513;
+  font-family: 'Crimson Text', serif;
+  font-weight: 500;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.western-input:focus {
+  outline: none;
+  border-color: #D2691E;
+  box-shadow: 0 0 0 4px rgba(210, 105, 30, 0.25);
+  transform: translateY(-2px) scale(1.01);
+}
+
+/* Menu text style - similar to the image */
+.menu-text {
+  font-family: 'Crimson Text', serif;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+  transition: all 0.3s ease;
+}
+
+/* Category headers - bold and elegant */
+.category-header {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+/* Horseshoe decoration */
+.sheriff-star::before {
+  content: '⭐';
+  margin-right: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+/* Étoile de shérif pour les cartes de plats */
+.dish-sheriff-star {
+  animation: starTwinkle 2s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1) rotate(5deg);
+    opacity: 0.8;
+  }
+}
+
+/* Effet hover pour l'étoile */
+.dish-card:hover .dish-sheriff-star {
+  animation: starSpin 0.6s ease-in-out;
+}
+
+@keyframes starSpin {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+/* Comic bubble animation */
+.comic-bubble {
+  animation: bounce 0.6s ease-out;
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Smooth page transitions */
+.page-transition {
+  animation: slideInFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* Forcer l'affichage sur mobile */
+  min-height: 100vh;
+  min-height: 100dvh; /* Support pour les navigateurs modernes */
+}
+
+@keyframes slideInFade {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Amélioration tactile pour mobile */
+.touch-manipulation {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Forcer l'affichage sur mobile */
+@media (max-width: 640px) {
+  /* Header mobile optimisé */
+  .mobile-topbar {
+    padding: 1rem !important;
+  }
+  
+  .mobile-topbar .flex {
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+  
+  .mobile-topbar h1 {
+    font-size: 1.125rem !important; /* 18px */
+    line-height: 1.2 !important;
+    text-align: center !important;
+  }
+  
+  .mobile-topbar .western-btn {
+    min-width: 40px !important;
+    min-height: 40px !important;
+    padding: 0.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  .western-card {
+    min-width: 280px !important;
+    max-width: 350px !important;
+  }
+  
+  .western-btn {
+    min-height: 48px !important;
+    font-size: 14px !important;
+  }
+  
+  /* Centrage des headers sur mobile */
+  .mobile-center-header {
+    justify-content: center !important;
+    flex-direction: column !important;
+  }
+  
+  .mobile-center-header .flex {
+    justify-content: center !important;
+    width: 100% !important;
+  }
+  
+  /* Header mobile optimisé */
+  .mobile-header-container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    text-align: center !important;
+  }
+  
+  .mobile-header-title {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+  
+  /* Optimisations admin mobile */
+  .admin-mobile-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .admin-table-mobile {
+    min-width: 800px;
+  }
+  
+  .admin-card-mobile {
+    margin: 0 -0.5rem;
+    border-radius: 0.5rem;
+  }
+  
+  .admin-input-mobile {
+    font-size: 16px !important; /* Évite le zoom sur iOS */
+  }
+  
+  .admin-header-mobile {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .admin-btn-mobile {
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+    font-size: 14px;
+  }
+  
+  /* Amélioration du scroll horizontal */
+  .admin-table-container {
+    scrollbar-width: thin;
+    scrollbar-color: #D2691E #f5e6d3;
+  }
+  
+  .admin-table-container::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .admin-table-container::-webkit-scrollbar-track {
+    background: #f5e6d3;
+    border-radius: 4px;
+  }
+  
+  .admin-table-container::-webkit-scrollbar-thumb {
+    background: #D2691E;
+    border-radius: 4px;
+  }
+  
+  .admin-table-container::-webkit-scrollbar-thumb:hover {
+    background: #A0522D;
+  }
+}
+
+/* Card hover effects */
+.dish-card {
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translateY(0);
+}
+
+.dish-card:hover {
+  transform: translateY(-6px) scale(1.03) rotateX(5deg);
+  box-shadow: 
+    0 15px 35px rgba(139, 69, 19, 0.4),
+    0 5px 15px rgba(139, 69, 19, 0.2);
+}
+
+.dish-card:active {
+  transform: translateY(-2px) scale(1.01) rotateX(2deg);
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Category button effects */
+.category-btn {
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform: translateY(0) scale(1);
+}
+
+.category-btn:hover {
+  transform: translateY(-5px) scale(1.08) rotate(2deg);
+  box-shadow: 
+    0 10px 25px rgba(139, 69, 19, 0.4),
+    0 5px 10px rgba(139, 69, 19, 0.2);
+}
+
+.category-btn:active {
+  transform: translateY(-2px) scale(1.04) rotate(1deg);
+  transition: all 0.1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Loading spinner animation */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Smooth link transitions */
+a {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Image transitions */
+img {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* Western card enhanced transitions */
+.western-card {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateY(0);
+}
+
+.western-card:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 
+    0 10px 20px rgba(139, 69, 19, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Staggered animations for lists */
+.stagger-item {
+  animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+}
+
+.stagger-item:nth-child(1) { animation-delay: 0.1s; }
+.stagger-item:nth-child(2) { animation-delay: 0.2s; }
+.stagger-item:nth-child(3) { animation-delay: 0.3s; }
+.stagger-item:nth-child(4) { animation-delay: 0.4s; }
+.stagger-item:nth-child(5) { animation-delay: 0.5s; }
+.stagger-item:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.8) rotate(-5deg);
+  }
+  60% {
+    opacity: 0.8;
+    transform: translateY(-5px) scale(1.05) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+/* Nouveaux effets pour les liens */
+a {
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+a:hover {
+  transform: scale(1.02);
+}
+
+/* Effet de pulsation pour les éléments importants */
+.pulse-effect {
+  animation: gentlePulse 2s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 0.9;
+  }
+}
+
+/* Effet de glissement pour les images */
+img {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+
+/* Effet de rebond pour les boutons spéciaux */
+.bounce-btn {
+  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.bounce-btn:hover {
+  transform: translateY(-4px) scale(1.1);
+  animation: bounceHover 0.6s ease-in-out;
+}
+
+@keyframes bounceHover {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(-4px) scale(1.1);
+  }
+  40% {
+    transform: translateY(-6px) scale(1.12);
+  }
+  60% {
+    transform: translateY(-2px) scale(1.08);
+  }
+}
+
+/* App Icons Display Mode */
+.app-icon-card {
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translateY(0);
+  padding: 0.5rem;
+  border-radius: 1rem;
+  max-width: 120px;
+  margin: 0 auto;
+}
+
+.app-icon-card:hover {
+  transform: translateY(-4px);
+  background: rgba(245, 230, 211, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 1.5rem;
+}
+
+.app-icon-card:active {
+  transform: translateY(-1px) scale(0.95);
+  transition: all 0.1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.app-icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-icon-image {
+  box-shadow: 
+    0 4px 12px rgba(139, 69, 19, 0.3),
+    0 2px 4px rgba(139, 69, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #f5e6d3 0%, #e8d5a3 100%);
+}
+
+.app-icon-placeholder {
+  box-shadow: 
+    0 4px 12px rgba(139, 69, 19, 0.3),
+    0 2px 4px rgba(139, 69, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.app-icon-badge {
+  animation: badgePulse 2s ease-in-out infinite;
+  z-index: 10;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.app-icon-category {
+  font-size: 0.6rem;
+  z-index: 5;
+  backdrop-filter: blur(4px);
+}
+
+.app-icon-title {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  line-height: 1.2;
+  height: 2.4em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Responsive adjustments for app icons */
+@media (max-width: 640px) {
+  .app-icon-card {
+    max-width: 100px;
+    padding: 0.25rem;
+  }
+  
+  .app-icon-title {
+    font-size: 0.65rem;
+    height: 2.2em;
+  }
+  
+  .app-icon-badge {
+    width: 20px;
+    height: 20px;
+    font-size: 0.6rem;
+  }
+  
+  .app-icon-category {
+    font-size: 0.5rem;
+    padding: 1px 4px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-icon-card {
+    max-width: 140px;
+  }
+  
+  .app-icon-title {
+    font-size: 0.875rem;
+  }
+}
+
+/* Classe utilitaire pour limiter le texte à 2 lignes */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Styles pour les différents modes d'affichage */
+.list-dish-card {
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translateY(0);
+}
+
+.list-dish-card:hover {
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 
+    0 6px 12px rgba(139, 69, 19, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Optimisations responsive pour les modes d'affichage */
+@media (max-width: 640px) {
+  .list-dish-card {
+    padding: 0.75rem !important;
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "project": {
+    "name": "Chuck Wagon Allergènes",
+    "version": "1.0.0",
+    "description": "Application multilingue de gestion des allergènes pour restaurant",
+    "created": "2025-01-27",
+    "status": "production-ready"
+  },
+  "technical": {
+    "frontend": {
+      "framework": "React 18.3.1",
+      "language": "TypeScript",
+      "bundler": "Vite 5.4.2",
+      "styling": "Tailwind CSS 3.4.1",
+      "routing": "React Router DOM 7.7.1",
+      "icons": "Lucide React 0.344.0"
+    },
+    "backend": {
+      "database": "Supabase (PostgreSQL)",
+      "auth": "Supabase Auth",
+      "storage": "Supabase Storage",
+      "api": "Supabase Client 2.53.0"
+    },
+    "deployment": {
+      "platform": "Netlify compatible",
+      "build_command": "npm run build",
+      "output_directory": "dist"
+    }
+  },
+  "features": {
+    "languages": [
+      { "code": "fr", "name": "Français", "flag": "🇫🇷", "default": true },
+      { "code": "en", "name": "English", "flag": "🇬🇧" },
+      { "code": "es", "name": "Español", "flag": "🇪🇸" },
+      { "code": "it", "name": "Italiano", "flag": "🇮🇹" },
+      { "code": "de", "name": "Deutsch", "flag": "🇩🇪" },
+      { "code": "nl", "name": "Nederlands", "flag": "🇳🇱" },
+      { "code": "pt", "name": "Português", "flag": "🇵🇹" }
+    ],
+    "categories": [
+      "entrées",
+      "plats", 
+      "desserts",
+      "sauces",
+      "huiles",
+      "salades",
+      "garnitures",
+      "fromages"
+    ],
+    "allergens": [
+      "Gluten",
+      "Œufs",
+      "Lait",
+      "Fruits à coque",
+      "Arachides",
+      "Soja",
+      "Poisson",
+      "Crustacés",
+      "Mollusques",
+      "Céleri",
+      "Moutarde",
+      "Sésame",
+      "Sulfites",
+      "Lupin"
+    ]
+  },
+  "routes": {
+    "public": [
+      "/",
+      "/:language",
+      "/:language/menu",
+      "/:language/category/:category",
+      "/:language/dish/:dishId"
+    ],
+    "admin": [
+      "/administration",
+      "/admin"
+    ]
+  },
+  "security": {
+    "authentication": "Supabase Auth (email/password)",
+    "authorization": "Row Level Security (RLS)",
+    "public_access": "Read-only dish information",
+    "admin_access": "Full CRUD operations"
+  },
+  "environment": {
+    "required_variables": [
+      "VITE_SUPABASE_URL",
+      "VITE_SUPABASE_ANON_KEY"
+    ],
+    "optional_variables": []
+  },
+  "database": {
+    "tables": [
+      {
+        "name": "dishes",
+        "columns": [
+          "id (uuid, PK)",
+          "nom (text, NOT NULL)",
+          "categorie (text, NOT NULL, CHECK constraint)",
+          "langue (text, NOT NULL, CHECK constraint)", 
+          "ingredients (text[])",
+          "allergenes (text[])",
+          "image_url (text)",
+          "created_at (timestamptz)",
+          "updated_at (timestamptz)"
+        ],
+        "constraints": [
+          "categorie IN (entrées, plats, desserts, sauces, huiles, salades, garnitures, fromages)",
+          "langue IN (fr, en, es, it, de, nl, pt)"
+        ],
+        "policies": [
+          "Public read access",
+          "Authenticated full access"
+        ]
+      }
+    ]
+  },
+  "backup_info": {
+    "created_by": "Bolt AI Assistant",
+    "backup_date": "2025-01-27",
+    "backup_type": "Complete project backup",
+    "includes": [
+      "Project configuration",
+      "Database schema",
+      "Environment setup",
+      "Deployment instructions",
+      "Feature documentation"
+    ]
+  }
+}
