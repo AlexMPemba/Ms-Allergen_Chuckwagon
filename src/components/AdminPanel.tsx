@@ -357,6 +357,15 @@ export default function AdminPanel() {
             
             <div className="flex items-center space-x-3">
               <button
+                onClick={() => navigate('/')}
+                className="flex items-center space-x-2 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+                title="Retour à la sélection des langues"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                <span className="hidden sm:inline">Langues</span>
+              </button>
+              
+              <button
                 onClick={() => navigate('/admin/history')}
                 className="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm transition-colors"
               >
