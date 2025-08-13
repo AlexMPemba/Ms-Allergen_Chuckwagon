@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { Search, ChefHat, Settings, ArrowLeft, Globe, X, Grid3X3, List, Utensils, UtensilsCrossed, Cookie, Droplets, Salad, Layers, Triangle, Coffee } from 'lucide-react';
 import { Language, Category } from '../types';
 import { useDishes } from '../hooks/useDishes';
@@ -9,7 +9,7 @@ import { getSubcategoriesForCategory } from '../data/categories';
 
 export default function CategoryPage() {
   const { language, category } = useParams<{ language: string; category: string }>();
-  const [searchParams] = new URLSearchParams(window.location.search);
+  const [searchParams] = useSearchParams();
   const selectedSubcategory = searchParams.get('subcategory');
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
