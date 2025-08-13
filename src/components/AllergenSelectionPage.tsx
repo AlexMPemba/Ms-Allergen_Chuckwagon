@@ -46,7 +46,7 @@ export default function AllergenSelectionPage() {
 
   // Effet pour gérer l'affichage de la bulle Natama
   useEffect(() => {
-    if (selectedAllergens.length > 3) {
+    if (selectedAllergens.length >= 3) {
       // Afficher la bulle après 3 secondes
       const showTimer = setTimeout(() => {
         setShowNatamaBubble(true);
@@ -63,7 +63,7 @@ export default function AllergenSelectionPage() {
       
       return () => clearTimeout(showTimer);
     } else {
-      // Masquer la bulle si 3 allergènes ou moins
+      // Masquer la bulle si moins de 3 allergènes
       setShowNatamaBubble(false);
       setBubbleVisible(false);
     }
@@ -172,37 +172,35 @@ export default function AllergenSelectionPage() {
           </div>
         )}
 
-        {/* Bulle de suggestion Natama */}
+        {/* Bulle de suggestion Natama - positionnée entre les deux notifications */}
         {showNatamaBubble && (
-          <div className={`fixed inset-0 flex items-center justify-center z-50 pointer-events-none transition-opacity duration-300 ${
+          <div className={`bg-green-100 border-2 border-green-600 rounded-lg p-4 mb-6 shadow-lg transition-opacity duration-300 ${
             bubbleVisible ? 'opacity-100' : 'opacity-70'
           }`}>
-            <div className="bg-green-100 border-2 border-green-600 rounded-lg p-4 mx-4 max-w-sm w-full shadow-lg pointer-events-auto">
-              <div className="flex items-center space-x-2 mb-3">
-                <Leaf className="h-5 w-5 text-green-600" />
-                <h4 className="text-sm font-medium text-green-800">
-                  Trop d'allergènes ? Essayez les plats Natama
-                </h4>
-                <button
-                  onClick={() => {
-                    setShowNatamaBubble(false);
-                    setBubbleVisible(false);
-                  }}
-                  className="ml-auto text-green-600 hover:text-green-800"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
-              <p className="text-xs text-green-700 mb-3">
-                Les plats Natama sont spécialement conçus pour les personnes avec de multiples allergies.
-              </p>
+            <div className="flex items-center space-x-2 mb-3">
+              <Leaf className="h-5 w-5 text-green-600" />
+              <h4 className="text-sm font-medium text-green-800">
+                Trop d'allergènes ? Essayez les plats Natama
+              </h4>
               <button
-                onClick={handleNatamaClick}
-                className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                onClick={() => {
+                  setShowNatamaBubble(false);
+                  setBubbleVisible(false);
+                }}
+                className="ml-auto text-green-600 hover:text-green-800"
               >
-                Voir les plats Natama
+                <X className="h-4 w-4" />
               </button>
             </div>
+            <p className="text-xs text-green-700 mb-3">
+              Les plats Natama sont spécialement conçus pour les personnes avec de multiples allergies.
+            </p>
+            <button
+              onClick={handleNatamaClick}
+              className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            >
+              Voir les plats Natama
+            </button>
           </div>
         )}
 
