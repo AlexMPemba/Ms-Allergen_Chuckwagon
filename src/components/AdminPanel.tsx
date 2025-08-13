@@ -26,7 +26,7 @@ import IngredientInput from './IngredientInput';
 
 export default function AdminPanel() {
   const navigate = useNavigate();
-  const { dishes, loading, error, addDish, updateDish, deleteDish, resetToDefault, addAdditionalItems, refreshDishes } = useDishes();
+  const { dishes, loading, error, addDish, updateDish, deleteDish, resetToDefault, addAdditionalItems, addCompleteMenu, refreshDishes } = useDishes();
   
   // États pour l'interface
   const [searchQuery, setSearchQuery] = useState('');
@@ -35,6 +35,7 @@ export default function AdminPanel() {
   const [editingDish, setEditingDish] = useState<string | null>(null);
   const [showConfirmReset, setShowConfirmReset] = useState(false);
   const [showConfirmA2, setShowConfirmA2] = useState(false);
+  const [showConfirmComplete, setShowConfirmComplete] = useState(false);
   const [operationLoading, setOperationLoading] = useState(false);
   const [operationError, setOperationError] = useState<string | null>(null);
   const [operationSuccess, setOperationSuccess] = useState<string | null>(null);
@@ -320,6 +321,31 @@ export default function AdminPanel() {
     } catch (err) {
       console.error('❌ [A2] Erreur lors de l\'ajout du menu A2:', err);
       setOperationError(`Erreur lors de l'ajout du menu A2: ${err instanceof Error ? err.message : 'Erreur inconnue'}`);
+    } finally {
+      setOperationLoading(false);
+    }
+  };
+
+  // Ajouter le menu complet Chuck Wagon
+  const handleAddCompleteMenu = async () => {
+    setOperationLoading(true);
+    setOperationError(null);
+    
+    try {
+      console.log('🔄 [COMPLETE] Tentative d\'ajout du menu complet Chuck Wagon');
+      
+      await addCompleteMenu();
+      
+      console.log('✅ [COMPLETE] Menu complet Chuck Wagon ajouté avec succès');
+      setOperationSuccess('Menu complet Chuck Wagon ajouté avec succès ! (120+ plats)');
+      setShowConfirmComplete(false);
+      
+      // Effacer le message de succès après 5 secondes
+      setTimeout(() => setOperationSuccess(null), 5000);
+      
+    } catch (err) {
+      console.error('❌ [COMPLETE] Erreur lors de l\'ajout du menu complet:', err);
+      setOperationError(`Erreur lors de l'ajout du menu complet: ${err instanceof Error ? err.message : 'Erreur inconnue'}`);
     } finally {
       setOperationLoading(false);
     }

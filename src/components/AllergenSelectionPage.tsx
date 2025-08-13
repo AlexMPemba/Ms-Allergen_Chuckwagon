@@ -56,20 +56,16 @@ export default function AllergenSelectionPage() {
       const oscillationTimeout = setTimeout(() => {
         setIsOscillating(true);
         setTimeout(() => setIsOscillating(false), 1000); // Oscillation dure 1 seconde
-      }, 2500);
+      }, 2500); // Première oscillation à 2.5 secondes
       
-      // Oscillation toutes les 6 secondes avec clignotement
-      const blinkInterval = setInterval(() => {
-        setBubbleVisible(false);
-        setTimeout(() => {
-          setBubbleVisible(true);
-          setIsOscillating(true);
-          setTimeout(() => setIsOscillating(false), 1000);
-        }, 500);
+      // Oscillation toutes les 6 secondes (sans clignotement)
+      const oscillationInterval = setInterval(() => {
+        setIsOscillating(true);
+        setTimeout(() => setIsOscillating(false), 1000);
       }, 6000);
       
       return () => {
-        clearInterval(blinkInterval);
+        clearInterval(oscillationInterval);
         clearTimeout(oscillationTimeout);
       };
     } else {

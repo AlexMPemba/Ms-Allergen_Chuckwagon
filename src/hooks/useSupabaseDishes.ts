@@ -4,6 +4,7 @@ import { supabase, DatabaseDish, DishModification, isSupabaseConfigured } from '
 import { Dish } from '../types';
 import { completeA2Menu } from '../utils/menuData';
 import { additionalMenuItems } from '../utils/additionalMenuItems';
+import { completeMenuData } from '../utils/completeMenuData';
 
 export function useSupabaseDishes() {
   const [dishes, setDishes] = useState<Dish[]>([]);
@@ -348,6 +349,61 @@ export function useSupabaseDishes() {
     }
   };
 
+  // Ajouter le menu complet Chuck Wagon (120+ plats)
+  const addCompleteMenu = async () => {
+    try {
+      if (!supabase || !isSupabaseConfigured()) {
+        throw new Error('Supabase non configuré');
+      }
+      
+      setLoading(true);
+      
+      // Supprimer tous les plats existants
+      const { error: deleteError } = await supabase
+        .from('dishes')
+        .delete()
+        .neq('id', '00000000-0000-0000-0000-000000000000'); // Supprimer tous
+
+      if (deleteError) throw deleteError;
+
+      // Ajouter tous les plats du menu complet
+      const dishesToInsert = completeMenuData.map(dish => ({
+        id: uuidv4(),
+        nom: dish.nom,
+        categorie: dish.categorie,
+        sous_categorie: dish.sous_categorie || null,
+        langue: dish.langue,
+        ingredients: dish.ingredients,
+        allergenes: dish.allergenes,
+        image_url: dish.image || null
+      }));
+
+      console.log('🍽️ [COMPLETE] Insertion de', dishesToInsert.length, 'plats du menu complet');
+      console.log('🍽️ [COMPLETE] Répartition par catégorie:');
+      const categoryCount = dishesToInsert.reduce((acc, dish) => {
+        acc[dish.categorie] = (acc[dish.categorie] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+      console.log('🍽️ [COMPLETE]', categoryCount);
+      
+      const { error: insertError } = await supabase
+        .from('dishes')
+        .insert(dishesToInsert);
+
+      if (insertError) throw insertError;
+
+      console.log('✅ [COMPLETE] Tous les plats du menu complet ont été ajoutés');
+      
+      // Recharger les plats depuis la base
+      await loadDishes();
+    } catch (err) {
+      console.error('Erreur lors de l\'ajout du menu complet:', err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Dupliquer tous les plats de "salades" vers "entrées"
   // Charger l'historique des modifications pour un plat
   const loadDishModifications = async (dishId: string): Promise<DishModification[]> => {
@@ -470,6 +526,7 @@ export function useSupabaseDishes() {
     deleteDish,
     resetToDefault,
     addAdditionalItems,
+    addCompleteMenu,
     refreshDishes: loadDishes,
     loadDishModifications,
     loadAllModifications

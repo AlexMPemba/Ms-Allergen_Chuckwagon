@@ -5,6 +5,7 @@ export function useDishes() {
   const result = useSupabaseDishes();
   return {
     ...result,
-    addAdditionalItems: result.addAdditionalItems
+    addAdditionalItems: result.addAdditionalItems,
+    addCompleteMenu: result.addCompleteMenu
   };
 }
