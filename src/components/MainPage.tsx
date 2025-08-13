@@ -384,7 +384,7 @@ export default function MainPage() {
                 </div>
                 
                 {/* Grille des sous-catégories en 2x2 */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="grid grid-cols-2 gap-4 mb-6 auto-rows-fr">
                   {/* Option pour voir toute la catégorie */}
                   <button
                     onClick={() => {
@@ -392,7 +392,7 @@ export default function MainPage() {
                       setShowSubcategoryDropdown(false);
                       setSelectedCategoryForSub(null);
                     }}
-                    className="flex flex-col items-center justify-center space-y-2 p-4 rounded-lg transition-all duration-200 western-btn hover:scale-105 min-h-[80px]"
+                    className="flex flex-col items-center justify-center space-y-2 p-4 rounded-lg transition-all duration-200 western-btn hover:scale-105 h-20"
                   >
                     {selectedCategoryForSub === 'Entrées' && <UtensilsCrossed className="h-6 w-6 text-white" />}
                     {selectedCategoryForSub === 'Desserts' && <Cookie className="h-6 w-6 text-white" />}
@@ -427,7 +427,7 @@ export default function MainPage() {
                           setShowSubcategoryDropdown(false);
                           setSelectedCategoryForSub(null);
                         }}
-                        className="flex flex-col items-center justify-center space-y-2 p-4 rounded-lg transition-all duration-200 western-btn hover:scale-105 min-h-[80px]"
+                        className="flex flex-col items-center justify-center space-y-2 p-4 rounded-lg transition-all duration-200 western-btn hover:scale-105 h-20"
                       >
                         <SubcategoryIcon className="h-6 w-6 text-white flex-shrink-0" />
                         <span className="text-white text-sm text-center leading-tight font-medium">
