@@ -21,6 +21,7 @@ import { useDishes } from '../hooks/useDishes';
 import { supabase } from '../lib/supabase';
 import { Dish, Category, Language } from '../types';
 import { categories, allergenTranslations } from '../data/translations';
+import { categoriesConfig, getSubcategoriesForCategory } from '../data/categories';
 import IngredientInput from './IngredientInput';
 
 export default function AdminPanel() {
@@ -86,9 +87,6 @@ export default function AdminPanel() {
     'Accompagnements', 'Garniture', 'Fromages', 'Huiles',
     'Natama', 'Halal', 'Casher', 'Boissons chaudes'
   ];
-
-  // Import des configurations de catégories
-  const { categoriesConfig, getSubcategoriesForCategory } = require('../data/categories');
 
   // Filtrer les plats
   const filteredDishes = dishes.filter(dish => {
