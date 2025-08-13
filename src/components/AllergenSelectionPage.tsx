@@ -56,7 +56,7 @@ export default function AllergenSelectionPage() {
       const oscillationTimeout = setTimeout(() => {
         setIsOscillating(true);
         setTimeout(() => setIsOscillating(false), 1000); // Oscillation dure 1 seconde
-      }, 3000);
+      }, 2500);
       
       // Oscillation toutes les 6 secondes avec clignotement
       const blinkInterval = setInterval(() => {
