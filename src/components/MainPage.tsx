@@ -358,8 +358,104 @@ export default function MainPage() {
         {/* Popup Sous-catégories */}
         {showSubcategoryDropdown && selectedCategoryForSub && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="western-card rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-lg max-h-[90vh] overflow-y-auto">
+            <div className="western-card rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-lg max-h-[90vh] overflow-y-auto relative">
               <div className="p-6">
+                {/* Bouton fermer en haut à droite */}
+                <button
+                  onClick={() => {
+                    setShowSubcategoryDropdown(false);
+                    setSelectedCategoryForSub(null);
+                  }}
+                  className="absolute top-4 right-4 text-amber-600 hover:text-amber-800 transition-colors"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+                
+                {/* Icône et titre centrés */}
+                <div className="text-center mb-6">
+                  <div className="bg-amber-100 p-4 rounded-full border-2 border-amber-800 flex items-center justify-center mx-auto w-fit mb-4">
+                    {selectedCategoryForSub === 'Entrées' && <UtensilsCrossed className="h-8 w-8 text-amber-800" />}
+                    {selectedCategoryForSub === 'Desserts' && <Cookie className="h-8 w-8 text-amber-800" />}
+                    {selectedCategoryForSub === 'Sauces' && <Droplets className="h-8 w-8 text-amber-800" />}
+                  </div>
+                  <h2 className="text-xl western-title">
+                    Types de {categories[lang][selectedCategoryForSub].toLowerCase()}
+                  </h2>
+                </div>
+                
+                {/* Grille des sous-catégories en 2x2 */}
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  {/* Option pour voir toute la catégorie */}
+                  <button
+                    onClick={() => {
+                      navigate(`/${lang}/category/${selectedCategoryForSub}`);
+                      setShowSubcategoryDropdown(false);
+                      setSelectedCategoryForSub(null);
+                    }}
+                    className="flex flex-col items-center justify-center space-y-2 p-4 rounded-lg transition-all duration-200 western-btn hover:scale-105 min-h-[80px]"
+                  >
+                    {selectedCategoryForSub === 'Entrées' && <UtensilsCrossed className="h-6 w-6 text-white" />}
+                    {selectedCategoryForSub === 'Desserts' && <Cookie className="h-6 w-6 text-white" />}
+                    {selectedCategoryForSub === 'Sauces' && <Droplets className="h-6 w-6 text-white" />}
+                    <span className="text-white text-sm text-center leading-tight font-medium">
+                      {selectedCategoryForSub === 'Entrées' && 'Toutes les entrées'}
+                      {selectedCategoryForSub === 'Desserts' && 'Tous les desserts'}
+                      {selectedCategoryForSub === 'Sauces' && 'Toutes les sauces'}
+                    </span>
+                  </button>
+                  
+                  {/* Sous-catégories spécifiques */}
+                  {getSubcategoriesForCategory(selectedCategoryForSub)?.map((subcategory) => {
+                    // Définir les icônes pour chaque sous-catégorie
+                    let SubcategoryIcon = Layers;
+                    if (subcategory === 'Bar à Salades') SubcategoryIcon = Salad;
+                    else if (subcategory === 'Charcuterie') SubcategoryIcon = UtensilsCrossed;
+                    else if (subcategory === 'Produits de la mer') SubcategoryIcon = UtensilsCrossed;
+                    else if (subcategory === 'Soupes') SubcategoryIcon = Coffee;
+                    else if (subcategory === 'Assortiment de graines et fruits secs') SubcategoryIcon = Layers;
+                    else if (subcategory === 'Desserts fruités') SubcategoryIcon = Apple;
+                    else if (subcategory === 'Glaces') SubcategoryIcon = Cookie;
+                    else if (subcategory === 'Gâteau d\'anniversaire') SubcategoryIcon = Cookie;
+                    else if (subcategory === 'Sauces condiment') SubcategoryIcon = Droplets;
+                    else if (subcategory === 'Sauces salade') SubcategoryIcon = Droplets;
+                    
+                    return (
+                      <button
+                        key={subcategory}
+                        onClick={() => {
+                          handleSubcategoryClick(selectedCategoryForSub, subcategory);
+                          setShowSubcategoryDropdown(false);
+                          setSelectedCategoryForSub(null);
+                        }}
+                        className="flex flex-col items-center justify-center space-y-2 p-4 rounded-lg transition-all duration-200 western-btn hover:scale-105 min-h-[80px]"
+                      >
+                        <SubcategoryIcon className="h-6 w-6 text-white flex-shrink-0" />
+                        <span className="text-white text-sm text-center leading-tight font-medium">
+                          {subcategory}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+                
+                {/* Bouton retour - juste une flèche marron */}
+                <div className="text-center">
+                  <button
+                    onClick={() => {
+                      setShowSubcategoryDropdown(false);
+                      setSelectedCategoryForSub(null);
+                      setShowCategoryDropdown(true);
+                    }}
+                    className="text-amber-800 hover:text-amber-900 hover:bg-amber-100 p-3 rounded-full transition-colors"
+                  >
+                    <ArrowLeft className="h-6 w-6" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Popup Filtres */}
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl western-title flex items-center space-x-2">
                     <Layers className="h-6 w-6 text-blue-600" />
