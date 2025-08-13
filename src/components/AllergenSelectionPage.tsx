@@ -11,6 +11,7 @@ export default function AllergenSelectionPage() {
   const [selectedAllergens, setSelectedAllergens] = useState<string[]>([]);
   const [showNatamaBubble, setShowNatamaBubble] = useState(false);
   const [bubbleVisible, setBubbleVisible] = useState(false);
+  const [isOscillating, setIsOscillating] = useState(false);
 
   // Liste des allergènes disponibles
   const availableAllergens = [
@@ -51,17 +52,33 @@ export default function AllergenSelectionPage() {
       setShowNatamaBubble(true);
       setBubbleVisible(true);
       
+      // Démarrer l'oscillation après 3 secondes
+      const oscillationTimeout = setTimeout(() => {
+        setIsOscillating(true);
+        setTimeout(() => setIsOscillating(false), 1000); // Oscillation dure 1 seconde
+      }, 3000);
+      
       // Commencer le clignotement toutes les 6 secondes
       const blinkInterval = setInterval(() => {
         setBubbleVisible(false);
         setTimeout(() => setBubbleVisible(true), 300);
+        
+        // Ajouter l'oscillation à chaque clignotement
+        setTimeout(() => {
+          setIsOscillating(true);
+          setTimeout(() => setIsOscillating(false), 1000);
+        }, 500);
       }, 6000);
       
-      return () => clearInterval(blinkInterval);
+      return () => {
+        clearInterval(blinkInterval);
+        clearTimeout(oscillationTimeout);
+      };
     } else {
       // Masquer la bulle si moins de 3 allergènes
       setShowNatamaBubble(false);
       setBubbleVisible(false);
+      setIsOscillating(false);
     }
   }, [selectedAllergens.length]);
 
@@ -172,6 +189,8 @@ export default function AllergenSelectionPage() {
         {showNatamaBubble && (
           <div className={`bg-green-100 border-2 border-green-600 rounded-lg p-4 mb-6 shadow-lg transition-opacity duration-300 ${
             bubbleVisible ? 'opacity-100' : 'opacity-70'
+          } ${
+            isOscillating ? 'natama-oscillate' : ''
           }`}>
             <div className="flex items-center space-x-2 mb-3">
               <Leaf className="h-5 w-5 text-green-600" />
