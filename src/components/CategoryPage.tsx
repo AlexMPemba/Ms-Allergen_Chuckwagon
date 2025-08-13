@@ -5,9 +5,12 @@ import { Search, ChefHat, Settings, ArrowLeft, Globe, X, Grid3X3, List, Utensils
 import { Language, Category } from '../types';
 import { useDishes } from '../hooks/useDishes';
 import { translations, categories, allergenTranslations } from '../data/translations';
+import { getSubcategoriesForCategory } from '../data/categories';
 
 export default function CategoryPage() {
   const { language, category } = useParams<{ language: string; category: string }>();
+  const [searchParams] = new URLSearchParams(window.location.search);
+  const selectedSubcategory = searchParams.get('subcategory');
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [hiddenAllergens, setHiddenAllergens] = useState<string[]>(() => {
@@ -100,23 +103,27 @@ export default function CategoryPage() {
           ingredient.toLowerCase().includes(searchQuery.toLowerCase())
         );
       
+      const matchesCategory = dish.categorie === selectedCategory;
+      const matchesSubcategory = !selectedSubcategory || dish.sous_categorie === selectedSubcategory;
+      
       // Filtrer par allergènes masqués
       const hasHiddenAllergen = hiddenAllergens.some(allergen => 
         dish.allergenes.includes(allergen)
       );
       
-      return matchesCategory && matchesSearch && !hasHiddenAllergen;
+      return matchesCategory && matchesSubcategory && matchesSearch && !hasHiddenAllergen;
     });
     
     console.log('🔍 [CATEGORY] === FILTRAGE CATÉGORIE ===');
     console.log('🔍 [CATEGORY] Catégorie sélectionnée:', selectedCategory);
+    console.log('🔍 [CATEGORY] Sous-catégorie sélectionnée:', selectedSubcategory);
     console.log('🔍 [CATEGORY] Total plats disponibles:', dishes.length);
     console.log('🔍 [CATEGORY] Plats dans cette catégorie:', dishes.filter(d => d.categorie === selectedCategory).length);
     console.log('🔍 [CATEGORY] Plats filtrés finaux:', filtered.length);
     console.log('🔍 [CATEGORY] Détail des plats filtrés:', filtered.map(d => ({ nom: d.nom, categorie: d.categorie, langue: d.langue })));
     
     return filtered;
-  }, [dishes, selectedCategory, searchQuery, hiddenAllergens]);
+  }, [dishes, selectedCategory, selectedSubcategory, searchQuery, hiddenAllergens]);
 
   const handleDishClick = (dishId: string) => {
     // Vérifier que le plat existe avant de naviguer
@@ -151,6 +158,9 @@ export default function CategoryPage() {
                 <ChefHat className="h-6 w-6 text-amber-800" />
                 <h1 className="text-lg western-title text-center">
                   {categories[lang][selectedCategory]}
+                  {selectedSubcategory && (
+                    <span className="text-sm text-blue-600 block">• {selectedSubcategory}</span>
+                  )}
                 </h1>
               </div>
               
@@ -182,6 +192,9 @@ export default function CategoryPage() {
               <ChefHat className="h-8 w-8 text-amber-800" />
               <h1 className="text-xl md:text-2xl western-title">
                 {categories[lang][selectedCategory]}
+                {selectedSubcategory && (
+                  <span className="text-lg text-blue-600 ml-2">• {selectedSubcategory}</span>
+                )}
               </h1>
             </div>
             

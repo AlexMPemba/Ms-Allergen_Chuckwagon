@@ -2,10 +2,10 @@ import React, { useState, useMemo } from 'react';
 import { useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Search, ChefHat, Settings, Utensils, Coffee, Cookie, Droplets, Salad, UtensilsCrossed, Globe, Apple, UserCheck as Cheese, X, Grid3X3, List, Layers, ChevronDown, Filter } from 'lucide-react';
-import { Triangle } from 'lucide-react';
 import { Language, Category } from '../types';
 import { useDishes } from '../hooks/useDishes';
 import { translations, categories, allergenTranslations } from '../data/translations';
+import { getSubcategoriesForCategory } from '../data/categories';
 
 export default function MainPage() {
   const { language } = useParams<{ language: string }>();
@@ -99,10 +99,26 @@ export default function MainPage() {
   };
 
   const handleCategoryClick = (category: Category) => {
-    navigate(`/${lang}/category/${category}`);
+    const subcategories = getSubcategoriesForCategory(category);
+    if (subcategories && subcategories.length > 0) {
+      // Si la catégorie a des sous-catégories, les afficher
+      setSelectedCategoryForSub(category);
+      setShowSubcategoryDropdown(true);
+      setShowCategoryDropdown(false);
+    } else {
+      // Sinon, naviguer directement
+      navigate(`/${lang}/category/${category}`);
+    }
+  };
+
+  const handleSubcategoryClick = (category: Category, subcategory: string) => {
+    navigate(`/${lang}/category/${category}?subcategory=${encodeURIComponent(subcategory)}`);
   };
 
   const categoryOptions: Category[] = ['Entrées', 'Plats', 'Desserts', 'Sauces', 'Accompagnements', 'Garniture', 'Fromages', 'Huiles', 'Natama', 'Halal', 'Casher', 'Boissons chaudes'];
+
+  const [selectedCategoryForSub, setSelectedCategoryForSub] = useState<Category | null>(null);
+  const [showSubcategoryDropdown, setShowSubcategoryDropdown] = useState(false);
 
   const categoryIcons = {
     'Entrées': UtensilsCrossed,
@@ -316,19 +332,26 @@ export default function MainPage() {
                 <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
                   {categoryOptions.map((category) => {
                     const IconComponent = categoryIcons[category];
+                    const hasSubcategories = getSubcategoriesForCategory(category);
                     return (
                       <button
                         key={category}
                         onClick={() => {
                           handleCategoryClick(category);
-                          setShowCategoryDropdown(false);
                         }}
-                        className="flex flex-col items-center justify-center space-y-2 p-3 sm:p-4 lg:p-5 rounded-lg transition-all duration-200 western-btn hover:scale-105 min-h-[85px] sm:min-h-[95px] lg:min-h-[105px] w-full"
+                        className={`flex flex-col items-center justify-center space-y-2 p-3 sm:p-4 lg:p-5 rounded-lg transition-all duration-200 western-btn hover:scale-105 min-h-[85px] sm:min-h-[95px] lg:min-h-[105px] w-full relative ${
+                          hasSubcategories ? 'border-2 border-blue-400' : ''
+                        }`}
                       >
                         <IconComponent className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7 text-white flex-shrink-0" />
                         <span className="text-white text-xs sm:text-sm lg:text-base text-center leading-tight font-medium px-1">
                           {categories[lang][category]}
                         </span>
+                        {hasSubcategories && (
+                          <div className="absolute top-1 right-1 bg-blue-500 text-white text-xs px-1 py-0.5 rounded-full">
+                            {hasSubcategories.length}
+                          </div>
+                        )}
                       </button>
                     );
                   })}
@@ -338,6 +361,74 @@ export default function MainPage() {
           </div>
         )}
 
+        {/* Popup Sous-catégories */}
+        {showSubcategoryDropdown && selectedCategoryForSub && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="western-card rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-lg max-h-[90vh] overflow-y-auto">
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl western-title flex items-center space-x-2">
+                    <Layers className="h-6 w-6 text-blue-600" />
+                    <span>{categories[lang][selectedCategoryForSub]}</span>
+                  </h2>
+                  <button
+                    onClick={() => {
+                      setShowSubcategoryDropdown(false);
+                      setSelectedCategoryForSub(null);
+                    }}
+                    className="text-amber-600 hover:text-amber-800 p-2 hover:bg-amber-100 rounded-full transition-colors"
+                  >
+                    <X className="h-6 w-6" />
+                  </button>
+                </div>
+                
+                {/* Option pour voir toute la catégorie */}
+                <button
+                  onClick={() => {
+                    navigate(`/${lang}/category/${selectedCategoryForSub}`);
+                    setShowSubcategoryDropdown(false);
+                    setSelectedCategoryForSub(null);
+                  }}
+                  className="w-full mb-4 p-4 rounded-lg transition-all duration-200 bg-amber-600 hover:bg-amber-700 text-white font-medium"
+                >
+                  Voir toute la catégorie "{categories[lang][selectedCategoryForSub]}"
+                </button>
+                
+                {/* Liste des sous-catégories */}
+                <div className="space-y-3">
+                  {getSubcategoriesForCategory(selectedCategoryForSub)?.map((subcategory) => (
+                    <button
+                      key={subcategory}
+                      onClick={() => {
+                        handleSubcategoryClick(selectedCategoryForSub, subcategory);
+                        setShowSubcategoryDropdown(false);
+                        setSelectedCategoryForSub(null);
+                      }}
+                      className="w-full flex items-center justify-between p-3 rounded-lg transition-all duration-200 bg-blue-100 hover:bg-blue-200 border-2 border-blue-300 hover:border-blue-400"
+                    >
+                      <span className="text-blue-800 font-medium text-sm">
+                        {subcategory}
+                      </span>
+                      <ChevronDown className="h-4 w-4 text-blue-600 rotate-[-90deg]" />
+                    </button>
+                  ))}
+                </div>
+                
+                {/* Bouton retour */}
+                <button
+                  onClick={() => {
+                    setShowSubcategoryDropdown(false);
+                    setSelectedCategoryForSub(null);
+                    setShowCategoryDropdown(true);
+                  }}
+                  className="w-full mt-4 p-3 rounded-lg bg-gray-500 hover:bg-gray-600 text-white font-medium transition-colors"
+                >
+                  ← Retour aux catégories
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         {/* Popup Filtres */}
         {showFilterDropdown && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -427,12 +518,14 @@ export default function MainPage() {
         )}
 
         {/* Overlay pour fermer les popups en cliquant à l'extérieur */}
-        {(showCategoryDropdown || showFilterDropdown) && (
+        {(showCategoryDropdown || showFilterDropdown || showSubcategoryDropdown) && (
           <div 
             className="fixed inset-0 z-40" 
             onClick={() => {
               setShowCategoryDropdown(false);
               setShowFilterDropdown(false);
+              setShowSubcategoryDropdown(false);
+              setSelectedCategoryForSub(null);
             }}
           />
         )}

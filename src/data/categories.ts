@@ -3,52 +3,52 @@ import { CategoryWithSubcategories, Category } from '../types';
 // Configuration exacte des catégories selon les spécifications
 export const categoriesConfig: CategoryWithSubcategories[] = [
   { 
-    "categorie": "Entrées", 
-    "sous_categorie": ["Bar à Salades", "Charcuterie", "Produits de la mer", "Soupes", "Assortiment de graines et fruits secs"] 
+    categorie: "Entrées", 
+    sous_categorie: ["Bar à Salades", "Charcuterie", "Produits de la mer", "Soupes", "Assortiment de graines et fruits secs"] 
   },
   { 
-    "categorie": "Plats", 
-    "sous_categorie": null 
+    categorie: "Plats", 
+    sous_categorie: null 
   },
   { 
-    "categorie": "Desserts", 
-    "sous_categorie": ["Desserts fruités", "Glaces", "Gâteau d'anniversaire"] 
+    categorie: "Desserts", 
+    sous_categorie: ["Desserts fruités", "Glaces", "Gâteau d'anniversaire"] 
   },
   { 
-    "categorie": "Sauces", 
-    "sous_categorie": ["Sauces condiment", "Sauces salade"] 
+    categorie: "Sauces", 
+    sous_categorie: ["Sauces condiment", "Sauces salade"] 
   },
   { 
-    "categorie": "Accompagnements", 
-    "sous_categorie": null 
+    categorie: "Accompagnements", 
+    sous_categorie: null 
   },
   { 
-    "categorie": "Garniture", 
-    "sous_categorie": null 
+    categorie: "Garniture", 
+    sous_categorie: null 
   },
   { 
-    "categorie": "Fromages", 
-    "sous_categorie": null 
+    categorie: "Fromages", 
+    sous_categorie: null 
   },
   { 
-    "categorie": "Huiles", 
-    "sous_categorie": null 
+    categorie: "Huiles", 
+    sous_categorie: null 
   },
   { 
-    "categorie": "Natama", 
-    "sous_categorie": null 
+    categorie: "Natama", 
+    sous_categorie: null 
   },
   { 
-    "categorie": "Halal", 
-    "sous_categorie": null 
+    categorie: "Halal", 
+    sous_categorie: null 
   },
   { 
-    "categorie": "Casher", 
-    "sous_categorie": null 
+    categorie: "Casher", 
+    sous_categorie: null 
   },
   { 
-    "categorie": "Boissons chaudes", 
-    "sous_categorie": null 
+    categorie: "Boissons chaudes", 
+    sous_categorie: null 
   }
 ];
 
