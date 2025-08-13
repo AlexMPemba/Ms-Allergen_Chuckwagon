@@ -285,48 +285,6 @@ export default function HistoryPage() {
                 )}
               </div>
             </div>
-
-            {/* Filtre par type d'action */}
-            <div>
-              <label className="block text-sm font-medium western-subtitle mb-2">
-                Type d'action
-              </label>
-              <select
-                value={selectedAction}
-                onChange={(e) => setSelectedAction(e.target.value as any)}
-                className="w-full p-3 western-input rounded-lg focus:ring-2 focus:ring-amber-500"
-              >
-                <option value="all">Toutes les actions</option>
-                <option value="created">Créations</option>
-                <option value="updated">Modifications</option>
-                <option value="deleted">Suppressions</option>
-              </select>
-            </div>
-
-            {/* Filtre par utilisateur */}
-            <div>
-              <label className="block text-sm font-medium western-subtitle mb-2">
-                Utilisateur
-              </label>
-              <div className="flex space-x-2">
-                <input
-                  type="text"
-                  value={selectedUser}
-                  onChange={(e) => setSelectedUser(e.target.value)}
-                  placeholder="Email de l'utilisateur..."
-                  className="flex-1 p-3 western-input rounded-lg focus:ring-2 focus:ring-amber-500"
-                />
-                {selectedUser && (
-                  <button
-                    onClick={() => setSelectedUser('')}
-                    className="px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
-                    title="Effacer le filtre utilisateur"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
-            </div>
           </div>
 
           {/* Statistiques */}
@@ -339,15 +297,13 @@ export default function HistoryPage() {
                   Action : <strong>{selectedAction === 'created' ? 'Créations' : selectedAction === 'updated' ? 'Modifications' : 'Suppressions'}</strong>
                 </span>
               )}
-              {selectedAction !== 'all' && (
-                <span className="text-indigo-600">
-                  Action : <strong>{selectedAction === 'created' ? 'Créations' : selectedAction === 'updated' ? 'Modifications' : 'Suppressions'}</strong>
-                </span>
-              )}
             </div>
             {(selectedDate || searchQuery || selectedAction !== 'all' || selectedUser) && (
               <button
                 onClick={clearAllFilters}
+                className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white rounded text-xs transition-colors"
+              >
+                Effacer tous les filtres
               </button>
             )}
           </div>
@@ -381,6 +337,9 @@ export default function HistoryPage() {
                 {(selectedDate || searchQuery || selectedAction !== 'all' || selectedUser) && (
                   <button
                     onClick={clearAllFilters}
+                    className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition-colors"
+                  >
+                    Effacer tous les filtres
                   </button>
                 )}
               </div>
@@ -445,8 +404,6 @@ export default function HistoryPage() {
                           </details>
                         </div>
                       )}
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </div>
