@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { AlertTriangle, ChefHat, ArrowLeft, Check, X } from 'lucide-react';
+import { AlertTriangle, ChefHat, ArrowLeft, Check, X, Leaf } from 'lucide-react';
 import { Language } from '../types';
 import { translations, allergenTranslations } from '../data/translations';
 
@@ -9,6 +10,8 @@ export default function AllergenSelectionPage() {
   const navigate = useNavigate();
   const lang = language as Language || 'fr';
   const [selectedAllergens, setSelectedAllergens] = useState<string[]>([]);
+  const [showNatamaBubble, setShowNatamaBubble] = useState(false);
+  const [bubbleVisible, setBubbleVisible] = useState(false);
 
   // Liste des allergènes disponibles
   const availableAllergens = [
@@ -34,12 +37,41 @@ export default function AllergenSelectionPage() {
 
   const toggleAllergen = (allergen: string) => {
     setSelectedAllergens(prev => {
-      if (prev.includes(allergen)) {
-        return prev.filter(a => a !== allergen);
-      } else {
-        return [...prev, allergen];
-      }
+      const newSelection = prev.includes(allergen)
+        ? prev.filter(a => a !== allergen)
+        : [...prev, allergen];
+      
+      return newSelection;
     });
+  };
+
+  // Effet pour gérer l'affichage de la bulle Natama
+  useEffect(() => {
+    if (selectedAllergens.length > 3) {
+      // Afficher la bulle après 3 secondes
+      const showTimer = setTimeout(() => {
+        setShowNatamaBubble(true);
+        setBubbleVisible(true);
+        
+        // Commencer le clignotement toutes les 6 secondes
+        const blinkInterval = setInterval(() => {
+          setBubbleVisible(false);
+          setTimeout(() => setBubbleVisible(true), 300);
+        }, 6000);
+        
+        return () => clearInterval(blinkInterval);
+      }, 3000);
+      
+      return () => clearTimeout(showTimer);
+    } else {
+      // Masquer la bulle si 3 allergènes ou moins
+      setShowNatamaBubble(false);
+      setBubbleVisible(false);
+    }
+  }, [selectedAllergens.length]);
+
+  const handleNatamaClick = () => {
+    navigate(`/${lang}/category/Natama`);
   };
 
   const handleContinue = () => {
@@ -138,6 +170,40 @@ export default function AllergenSelectionPage() {
             <p className="text-xs text-red-700 mt-2">
               {translations.dishesWithAllergensHidden[lang]}
             </p>
+          </div>
+        )}
+
+        {/* Bulle de suggestion Natama */}
+        {showNatamaBubble && (
+          <div className={`fixed inset-0 flex items-center justify-center z-50 pointer-events-none transition-opacity duration-300 ${
+            bubbleVisible ? 'opacity-100' : 'opacity-70'
+          }`}>
+            <div className="bg-green-100 border-2 border-green-600 rounded-lg p-4 mx-4 max-w-sm w-full shadow-lg pointer-events-auto">
+              <div className="flex items-center space-x-2 mb-3">
+                <Leaf className="h-5 w-5 text-green-600" />
+                <h4 className="text-sm font-medium text-green-800">
+                  Trop d'allergènes ? Essayez les plats Natama
+                </h4>
+                <button
+                  onClick={() => {
+                    setShowNatamaBubble(false);
+                    setBubbleVisible(false);
+                  }}
+                  className="ml-auto text-green-600 hover:text-green-800"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+              <p className="text-xs text-green-700 mb-3">
+                Les plats Natama sont spécialement conçus pour les personnes avec de multiples allergies.
+              </p>
+              <button
+                onClick={handleNatamaClick}
+                className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              >
+                Voir les plats Natama
+              </button>
+            </div>
           </div>
         )}
 
