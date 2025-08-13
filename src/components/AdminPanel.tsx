@@ -926,6 +926,50 @@ export default function AdminPanel() {
             </div>
           )}
         </div>
+        {/* Confirmation ajout menu complet */}
+        {showConfirmComplete && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="western-card rounded-2xl shadow-2xl max-w-md w-full p-6">
+              <div className="text-center mb-6">
+                <div className="bg-green-100 p-4 rounded-full border-2 border-green-800 flex items-center justify-center mx-auto w-fit mb-4">
+                  <Upload className="h-8 w-8 text-green-800" />
+                </div>
+                <h2 className="text-xl western-title mb-2">Ajouter le menu complet Chuck Wagon</h2>
+                <p className="western-subtitle text-sm">
+                  Cette action va supprimer tous les plats existants et ajouter le menu complet Chuck Wagon (120+ plats avec sous-catégories).
+                </p>
+              </div>
+              
+              <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-6">
+                <p className="text-blue-800 text-sm">
+                  <strong>ℹ️ Information :</strong> Tous les plats seront remplacés par le menu officiel Chuck Wagon avec toutes les catégories et sous-catégories.
+                </p>
+              </div>
+              
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setShowConfirmComplete(false)}
+                  className="flex-1 px-4 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg text-sm transition-colors"
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={handleAddCompleteMenu}
+                  disabled={operationLoading}
+                  className="flex-1 flex items-center justify-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg text-sm transition-colors disabled:opacity-50"
+                >
+                  {operationLoading ? (
+                    <RefreshCw className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Check className="h-4 w-4" />
+                  )}
+                  <span>{operationLoading ? 'Ajout...' : 'Ajouter 120+ plats'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
 
         {/* Confirmation réinitialisation menu */}
         {showConfirmReset && (
