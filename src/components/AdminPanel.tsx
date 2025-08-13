@@ -477,6 +477,15 @@ export default function AdminPanel() {
               </button>
               
               <button
+                onClick={() => setShowConfirmComplete(true)}
+                disabled={operationLoading}
+                className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition-colors disabled:opacity-50"
+              >
+                <Upload className="h-4 w-4" />
+                <span>Menu complet Chuck Wagon</span>
+              </button>
+              
+              <button
                 onClick={() => setShowConfirmReset(true)}
                 disabled={operationLoading}
                 className="flex items-center space-x-2 bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg text-sm transition-colors disabled:opacity-50"
