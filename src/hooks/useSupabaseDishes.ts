@@ -21,7 +21,8 @@ export function useSupabaseDishes() {
     langue: dbDish.langue as any,
     ingredients: dbDish.ingredients || [],
     allergenes: dbDish.allergenes || [],
-    image: dbDish.image_url || undefined
+    image: dbDish.image_url || undefined,
+    a_la_carte: dbDish.a_la_carte ?? true
   });
 
   // Charger les plats depuis Supabase
@@ -142,7 +143,8 @@ export function useSupabaseDishes() {
         langue: newDish.langue,
         ingredients: newDish.ingredients,
         allergenes: newDish.allergenes,
-        image_url: newDish.image || null
+        image_url: newDish.image || null,
+        a_la_carte: newDish.a_la_carte ?? true
       };
 
       const { error } = await supabase
@@ -187,7 +189,8 @@ export function useSupabaseDishes() {
         ...(updates.langue !== undefined && { langue: updates.langue }),
         ...(updates.ingredients !== undefined && { ingredients: updates.ingredients }),
         ...(updates.allergenes !== undefined && { allergenes: updates.allergenes }),
-        ...(updates.image !== undefined && { image_url: updates.image })
+        ...(updates.image !== undefined && { image_url: updates.image }),
+        ...(updates.a_la_carte !== undefined && { a_la_carte: updates.a_la_carte })
       };
 
       const { error } = await supabase
@@ -274,7 +277,8 @@ export function useSupabaseDishes() {
         langue: dish.langue,
         ingredients: dish.ingredients,
         allergenes: dish.allergenes,
-        image_url: dish.image || null
+        image_url: dish.image || null,
+        a_la_carte: true
       }));
 
       console.log('🍽️ [RESET] Insertion de', dishesToInsert.length, 'plats du menu A2');
@@ -320,7 +324,8 @@ export function useSupabaseDishes() {
         langue: dish.langue,
         ingredients: dish.ingredients,
         allergenes: dish.allergenes,
-        image_url: dish.image || null
+        image_url: dish.image || null,
+        a_la_carte: true
       }));
 
       console.log('🍽️ [ADD] Insertion de', dishesToInsert.length, 'nouveaux plats');
@@ -375,7 +380,8 @@ export function useSupabaseDishes() {
         langue: dish.langue,
         ingredients: dish.ingredients,
         allergenes: dish.allergenes,
-        image_url: dish.image || null
+        image_url: dish.image || null,
+        a_la_carte: true
       }));
 
       console.log('🍽️ [COMPLETE] Insertion de', dishesToInsert.length, 'plats du menu complet');

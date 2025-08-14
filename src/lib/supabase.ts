@@ -46,6 +46,7 @@ export interface DatabaseDish {
   image_url: string | null;
   created_at: string;
   updated_at: string;
+  a_la_carte: boolean;
 }
 
 export interface DishModification {

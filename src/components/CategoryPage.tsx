@@ -96,6 +96,9 @@ export default function CategoryPage() {
 
   const filteredDishes = useMemo(() => {
     const filtered = dishes.filter(dish => {
+      // Filtrer seulement les plats actuellement à la carte
+      const isAvailable = dish.a_la_carte !== false;
+      
       const matchesCategory = dish.categorie === selectedCategory;
       const matchesSearch = !searchQuery || 
         dish.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -110,7 +113,7 @@ export default function CategoryPage() {
         dish.allergenes.includes(allergen)
       );
       
-      return matchesCategory && matchesSubcategory && matchesSearch && !hasHiddenAllergen;
+      return isAvailable && matchesCategory && matchesSubcategory && matchesSearch && !hasHiddenAllergen;
     });
     
     console.log('🔍 [CATEGORY] === FILTRAGE CATÉGORIE ===');

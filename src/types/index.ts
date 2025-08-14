@@ -8,6 +8,7 @@ export interface Dish {
   ingredients: string[];
   allergenes: string[];
   image?: string;
+  a_la_carte?: boolean;
 }
 
 export type Language = 'fr' | 'en' | 'es' | 'pt' | 'it';
