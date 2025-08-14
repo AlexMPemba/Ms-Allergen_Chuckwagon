@@ -794,6 +794,15 @@ export const completeMenuData: Omit<Dish, 'id'>[] = [
     "image": "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400"
   },
   {
+    "nom": "Plat spécial Nutrisens",
+    "categorie": "Nutrisens",
+    "sous_categorie": null,
+    "langue": "fr",
+    "ingredients": ["ingrédients hypoallergéniques", "légumes bio"],
+    "allergenes": [],
+    "image": "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400"
+  },
+  {
     "nom": "Pommes de terre croustillantes Mickey",
     "categorie": "Garniture",
     "sous_categorie": null,

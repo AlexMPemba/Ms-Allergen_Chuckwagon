@@ -668,7 +668,7 @@ img {
   }
 }
 
-/* Animation d'oscillation pour la bulle Natama */
+/* Animation d'oscillation pour la bulle Nutrisens */
 @keyframes gentleOscillation {
   0%, 100% {
     transform: translateX(0);
@@ -681,6 +681,6 @@ img {
   }
 }
 
-.natama-oscillate {
+.nutrisens-oscillate {
   animation: gentleOscillation 1s ease-in-out;
 }

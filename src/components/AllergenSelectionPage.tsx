@@ -184,7 +184,7 @@ export default function AllergenSelectionPage() {
           <div className={`bg-green-100 border-2 border-green-600 rounded-lg p-4 mb-6 shadow-lg transition-opacity duration-300 ${
             bubbleVisible ? 'opacity-100' : 'opacity-70'
           } ${
-            isOscillating ? 'natama-oscillate' : ''
+            isOscillating ? 'nutrisens-oscillate' : ''
           }`}>
             <div className="flex items-center space-x-2 mb-3">
               <Leaf className="h-5 w-5 text-green-600" />
