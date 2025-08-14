@@ -25,9 +25,20 @@ import { categoriesConfig, getSubcategoriesForCategory } from '../data/categorie
 import IngredientInput from './IngredientInput';
 import { updateDishImages, displayUpdateReport } from '../utils/updateDishImages';
 
-export default function AdminPanel() {
+export default function AdminDashboard() {
   const navigate = useNavigate();
-  const { dishes, loading, error, addDish, updateDish, deleteDish, resetToDefault, addAdditionalItems, addCompleteMenu, refreshDishes } = useDishes();
+  const { 
+    dishes, 
+    loading, 
+    error, 
+    addDish, 
+    updateDish, 
+    deleteDish, 
+    refreshDishes, 
+    resetToDefault, 
+    addAdditionalItems, 
+    addCompleteMenu 
+  } = useDishes();
   
   // États pour l'interface
   const [searchQuery, setSearchQuery] = useState('');
@@ -395,8 +406,7 @@ export default function AdminPanel() {
     }
   };
 
-  const handleToggleVisibility = async (dishId: string) => {
-    // Basculer la sélection d'allergène
+  // Basculer la sélection d'allergène
   const toggleAllergen = (allergen: string, isEditing: boolean = false) => {
     if (isEditing && editForm) {
       const currentAllergens = editForm.allergenes || [];
@@ -639,8 +649,8 @@ export default function AdminPanel() {
                   <input
                     type="checkbox"
                     id="editDish-a-la-carte"
-                    checked={editingDish.a_la_carte !== false}
-                    onChange={(e) => setEditingDish({ ...editingDish, a_la_carte: e.target.checked })}
+                    checked={editForm.a_la_carte !== false}
+                    onChange={(e) => setEditForm({ ...editForm, a_la_carte: e.target.checked })}
                     className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-amber-300 rounded"
                   />
                   <label htmlFor="editDish-a-la-carte" className="text-sm western-subtitle cursor-pointer">
