@@ -77,7 +77,7 @@ export default function AllergenSelectionPage() {
   }, [selectedAllergens.length]);
 
   const handleNatamaClick = () => {
-    navigate(`/${lang}/category/Natama`);
+    navigate(`/${lang}/category/Nutrisens`);
   };
 
   const handleContinue = () => {
@@ -202,13 +202,13 @@ export default function AllergenSelectionPage() {
               </button>
             </div>
             <p className="text-xs text-green-700 mb-3">
-              Les plats Natama sont spécialement conçus pour les personnes avec de multiples allergies.
+              Les plats Nutrisens sont spécialement conçus pour les personnes avec de multiples allergies.
             </p>
             <button
               onClick={handleNatamaClick}
               className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >
-              Voir les plats Natama
+              Voir les plats Nutrisens
             </button>
           </div>
         )}

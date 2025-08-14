@@ -86,7 +86,7 @@ export default function AdminPanel() {
   const categoryOptions: Category[] = [
     'Entrées', 'Plats', 'Desserts', 'Sauces', 
     'Accompagnements', 'Garniture', 'Fromages', 'Huiles',
-    'Natama', 'Halal', 'Casher', 'Boissons chaudes'
+    'Nutrisens', 'Halal', 'Casher', 'Boissons chaudes'
   ];
 
   // Filtrer les plats

@@ -35,7 +35,7 @@ export const categoriesConfig: CategoryWithSubcategories[] = [
     sous_categorie: null 
   },
   { 
-    categorie: "Natama", 
+    categorie: "Nutrisens", 
     sous_categorie: null 
   },
   { 

@@ -391,7 +391,7 @@ export const categories = {
     'Garniture': 'Garniture',
     'Fromages': 'Fromages',
     'Huiles': 'Huiles',
-    'Natama': 'Natama',
+    'Nutrisens': 'Nutrisens',
     'Halal': 'Halal',
     'Casher': 'Casher',
     'Boissons chaudes': 'Boissons chaudes'
@@ -405,7 +405,7 @@ export const categories = {
     'Garniture': 'Sides',
     'Fromages': 'Cheeses',
     'Huiles': 'Oils',
-    'Natama': 'Natama',
+    'Nutrisens': 'Nutrisens',
     'Halal': 'Halal',
     'Casher': 'Kosher',
     'Boissons chaudes': 'Hot Beverages'
@@ -419,7 +419,7 @@ export const categories = {
     'Garniture': 'Guarniciones',
     'Fromages': 'Quesos',
     'Huiles': 'Aceites',
-    'Natama': 'Natama',
+    'Nutrisens': 'Nutrisens',
     'Halal': 'Halal',
     'Casher': 'Casher',
     'Boissons chaudes': 'Bebidas Calientes'
@@ -433,7 +433,7 @@ export const categories = {
     'Garniture': 'Contorni',
     'Fromages': 'Formaggi',
     'Huiles': 'Oli',
-    'Natama': 'Natama',
+    'Nutrisens': 'Nutrisens',
     'Halal': 'Halal',
     'Casher': 'Casher',
     'Boissons chaudes': 'Bevande Calde'
@@ -447,7 +447,7 @@ export const categories = {
     'Garniture': 'Beilagen',
     'Fromages': 'Käse',
     'Huiles': 'Öle',
-    'Natama': 'Natama',
+    'Nutrisens': 'Nutrisens',
     'Halal': 'Halal',
     'Casher': 'Koscher',
     'Boissons chaudes': 'Heißgetränke'
@@ -461,7 +461,7 @@ export const categories = {
     'Garniture': 'Bijgerechten',
     'Fromages': 'Kazen',
     'Huiles': 'Oliën',
-    'Natama': 'Natama',
+    'Nutrisens': 'Nutrisens',
     'Halal': 'Halal',
     'Casher': 'Kosjer',
     'Boissons chaudes': 'Warme Dranken'
@@ -475,7 +475,7 @@ export const categories = {
     'Garniture': 'Acompanhamentos',
     'Fromages': 'Queijos',
     'Huiles': 'Óleos',
-    'Natama': 'Natama',
+    'Nutrisens': 'Nutrisens',
     'Halal': 'Halal',
     'Casher': 'Casher',
     'Boissons chaudes': 'Bebidas Quentes'

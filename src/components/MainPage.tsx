@@ -130,7 +130,7 @@ export default function MainPage() {
     'Garniture': Layers,
     'Fromages': Triangle,
     'Huiles': Droplets,
-    'Natama': Coffee,
+    'Nutrisens': Coffee,
     'Halal': UtensilsCrossed,
     'Casher': UtensilsCrossed,
     'Boissons chaudes': Coffee
@@ -145,7 +145,7 @@ export default function MainPage() {
     'Garniture': 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400',
     'Fromages': 'https://images.pexels.com/photos/773253/pexels-photo-773253.jpeg?auto=compress&cs=tinysrgb&w=400',
     'Huiles': 'https://images.pexels.com/photos/33783/olive-oil-salad-dressing-cooking-olive.jpg?auto=compress&cs=tinysrgb&w=400',
-    'Natama': 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400',
+    'Nutrisens': 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400',
     'Halal': 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=400',
     'Casher': 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=400',
     'Boissons chaudes': 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=400'

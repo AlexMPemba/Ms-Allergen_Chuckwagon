@@ -12,7 +12,7 @@ export interface Dish {
 
 export type Language = 'fr' | 'en' | 'es' | 'pt' | 'it';
 export type Language = 'fr' | 'en' | 'es' | 'it' | 'de' | 'nl' | 'pt';
-export type Category = 'Entrées' | 'Plats' | 'Desserts' | 'Sauces' | 'Accompagnements' | 'Garniture' | 'Fromages' | 'Huiles' | 'Natama' | 'Halal' | 'Casher' | 'Boissons chaudes';
+export type Category = 'Entrées' | 'Plats' | 'Desserts' | 'Sauces' | 'Accompagnements' | 'Garniture' | 'Fromages' | 'Huiles' | 'Nutrisens' | 'Halal' | 'Casher' | 'Boissons chaudes';
 
 export interface CategoryWithSubcategories {
   categorie: Category;
