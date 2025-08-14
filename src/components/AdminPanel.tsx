@@ -887,6 +887,27 @@ export default function AdminPanel() {
                             className="w-full p-2 western-input rounded-lg focus:ring-2 focus:ring-amber-500 text-sm"
                           />
                         </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium western-subtitle mb-2">
+                            Visibilité
+                          </label>
+                          <div className="flex items-center space-x-3 p-3 bg-amber-50 rounded-lg border border-amber-200">
+                            <input
+                              type="checkbox"
+                              id="editDish-a-la-carte"
+                              checked={editForm.a_la_carte ?? dish.a_la_carte ?? true}
+                              onChange={(e) => setEditForm({ ...editForm, a_la_carte: e.target.checked })}
+                              className="w-4 h-4 text-amber-600 bg-amber-100 border-amber-300 rounded focus:ring-amber-500 focus:ring-2"
+                            />
+                            <label htmlFor="editDish-a-la-carte" className="text-sm western-subtitle cursor-pointer">
+                              ✅ Actuellement à la carte (visible dans le menu)
+                            </label>
+                          </div>
+                          <p className="text-xs text-gray-500 mt-1">
+                            Décocher pour masquer ce plat du menu public
+                          </p>
+                        </div>
                       </div>
                       
                       <div>
