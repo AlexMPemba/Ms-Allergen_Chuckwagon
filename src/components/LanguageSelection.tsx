@@ -67,16 +67,6 @@ export default function LanguageSelection() {
           ))}
         </div>
         
-        {/* Note discrète en bas */}
-        <div className="mt-6 pt-4 border-t border-amber-200">
-          <button
-            onClick={() => navigate('/administration')}
-            className="w-full flex items-center justify-center space-x-2 text-amber-600 hover:text-amber-800 transition-colors p-2 rounded-lg hover:bg-amber-50 text-sm"
-          >
-            <Shield className="h-4 w-4" />
-            <span>Administration</span>
-          </button>
-        </div>
       </div>
     </div>
   );
