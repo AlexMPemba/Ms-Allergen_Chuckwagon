@@ -421,7 +421,7 @@ export const categories = {
     'Huiles': 'Aceites',
     'Nutrisens': 'Nutrisens',
     'Halal': 'Halal',
-    'Casher': 'Casher',
+    'Casher': 'Kosher',
     'Boissons chaudes': 'Bebidas Calientes'
   },
   it: {
@@ -435,7 +435,7 @@ export const categories = {
     'Huiles': 'Oli',
     'Nutrisens': 'Nutrisens',
     'Halal': 'Halal',
-    'Casher': 'Casher',
+    'Casher': 'Kosher',
     'Boissons chaudes': 'Bevande Calde'
   },
   de: {
