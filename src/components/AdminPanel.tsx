@@ -43,6 +43,7 @@ export default function AdminPanel() {
   const [operationSuccess, setOperationSuccess] = useState<string | null>(null);
 
   // États pour le formulaire d'ajout
+  const [togglingVisibility, setTogglingVisibility] = useState<string | null>(null);
   const [newDish, setNewDish] = useState<Omit<Dish, 'id'>>({
     nom: '',
     categorie: 'plats',
@@ -125,8 +126,7 @@ export default function AdminPanel() {
     // Validation de la sous-catégorie
     const validSubcategories = getSubcategoriesForCategory(newDish.categorie);
     if (validSubcategories && newDish.sous_categorie && !validSubcategories.includes(newDish.sous_categorie)) {
-        image: newDish.image || undefined,
-        a_la_carte: newDish.a_la_carte
+      setOperationError('Sous-catégorie invalide pour cette catégorie');
       return;
     }
 
@@ -158,8 +158,7 @@ export default function AdminPanel() {
       setTimeout(() => setOperationSuccess(null), 3000);
       
     } catch (err) {
-        image: '',
-        a_la_carte: true
+      console.error('❌ [ADD] Erreur lors de l\'ajout:', err);
       setOperationError(`Erreur lors de l'ajout: ${err instanceof Error ? err.message : 'Erreur inconnue'}`);
     } finally {
       setOperationLoading(false);
