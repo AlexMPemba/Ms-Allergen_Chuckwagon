@@ -24,10 +24,6 @@ import { categories, allergenTranslations } from '../data/translations';
 import { categoriesConfig, getSubcategoriesForCategory } from '../data/categories';
 import IngredientInput from './IngredientInput';
 import { updateDishImages, displayUpdateReport } from '../utils/updateDishImages';
-
-export default function AdminPanel() {
-  const navigate = useNavigate();
-  const { dishes, loading, error, addDish, updateDish, deleteDish, resetToDefault, addAdditionalItems, addCompleteMenu, refreshDishes } = useDishes();
   
   // États pour l'interface
   const [searchQuery, setSearchQuery] = useState('');
@@ -549,14 +545,6 @@ export default function AdminPanel() {
             </div>
           </div>
         </div>
-
-        {/* Actions rapides - Boutons masqués selon demande utilisateur */}
-        {/* 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
-          // Boutons masqués : Actualiser, Ajouter menu A2, Menu Complet Chuck Wagon, 
-          // Mettre à jour images, Réinitialiser le menu complet
-        </div>
-        */}
 
         {/* Filtres */}
         <div className="western-card rounded-lg shadow-sm p-6 mb-6">
