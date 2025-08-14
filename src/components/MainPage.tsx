@@ -117,6 +117,7 @@ export default function MainPage() {
   };
 
   const categoryOptions: Category[] = ['Entrées', 'Plats', 'Desserts', 'Sauces', 'Accompagnements', 'Garniture', 'Fromages', 'Huiles', 'Natama', 'Halal', 'Casher', 'Boissons chaudes'];
+  const categoryOptions: Category[] = ['Entrées', 'Plats', 'Desserts', 'Sauces', 'Accompagnements', 'Garniture', 'Fromages', 'Huiles', 'Nutrisens', 'Halal', 'Casher', 'Boissons chaudes'];
 
   const [selectedCategoryForSub, setSelectedCategoryForSub] = useState<Category | null>(null);
   const [showSubcategoryDropdown, setShowSubcategoryDropdown] = useState(false);
