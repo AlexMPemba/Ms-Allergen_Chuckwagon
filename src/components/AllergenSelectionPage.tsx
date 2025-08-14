@@ -202,7 +202,7 @@ export default function AllergenSelectionPage() {
             <div className="flex items-center space-x-2 mb-3">
               <Leaf className="h-5 w-5 text-green-600" />
               <h4 className="text-sm font-medium text-green-800">
-                Trop d'allergènes ? Essayez les plats Nutrisens
+                {translations.nutrisensTitle[lang]}
               </h4>
               <button
                 onClick={() => {
@@ -215,13 +215,13 @@ export default function AllergenSelectionPage() {
               </button>
             </div>
             <p className="text-xs text-green-700 mb-3">
-              Les plats Nutrisens sont spécialement conçus pour les personnes avec de multiples allergies.
+              {translations.nutrisensDescription[lang]}
             </p>
             <button
               onClick={handleNatamaClick}
               className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >
-              Voir les plats Nutrisens
+              {translations.seeNutrisensPlates[lang]}
             </button>
           </div>
         )}

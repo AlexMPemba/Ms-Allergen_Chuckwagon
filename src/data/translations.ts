@@ -378,6 +378,33 @@ export const translations: Translations = {
     de: 'Allergene',
     nl: 'Allergenen',
     pt: 'Alérgenos',
+  },
+  nutrisensTitle: {
+    fr: 'Trop d\'allergènes ? Essayez les plats Nutrisens',
+    en: 'Too many allergens? Try Nutrisens dishes',
+    es: '¿Demasiados alérgenos? Prueba los platos Nutrisens',
+    it: 'Troppi allergeni? Prova i piatti Nutrisens',
+    de: 'Zu viele Allergene? Probieren Sie Nutrisens-Gerichte',
+    nl: 'Te veel allergenen? Probeer Nutrisens gerechten',
+    pt: 'Muitos alérgenos? Experimente os pratos Nutrisens',
+  },
+  nutrisensDescription: {
+    fr: 'Les plats Nutrisens sont spécialement conçus pour les personnes avec de multiples allergies.',
+    en: 'Nutrisens dishes are specially designed for people with multiple allergies.',
+    es: 'Los platos Nutrisens están especialmente diseñados para personas con múltiples alergias.',
+    it: 'I piatti Nutrisens sono appositamente progettati per persone con allergie multiple.',
+    de: 'Nutrisens-Gerichte sind speziell für Menschen mit mehreren Allergien entwickelt.',
+    nl: 'Nutrisens gerechten zijn speciaal ontworpen voor mensen met meerdere allergieën.',
+    pt: 'Os pratos Nutrisens são especialmente projetados para pessoas com múltiplas alergias.',
+  },
+  seeNutrisensPlates: {
+    fr: 'Voir les plats Nutrisens',
+    en: 'See Nutrisens dishes',
+    es: 'Ver platos Nutrisens',
+    it: 'Vedi piatti Nutrisens',
+    de: 'Nutrisens-Gerichte ansehen',
+    nl: 'Bekijk Nutrisens gerechten',
+    pt: 'Ver pratos Nutrisens',
   }
 };
 
