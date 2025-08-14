@@ -4,7 +4,7 @@ import { CategoryWithSubcategories, Category } from '../types';
 export const categoriesConfig: CategoryWithSubcategories[] = [
   { 
     categorie: "Entrées", 
-    sous_categorie: ["Bar à Salades", "Charcuterie", "Produits de la mer", "Soupes", "Assortiment de graines et fruits secs"] 
+    sous_categorie: ["Bar à Salades", "Charcuterie", "Produits de la mer", "Soupes", "Assortiment de graines et fruits secs", "Salades Composées"] 
   },
   { 
     categorie: "Plats", 
