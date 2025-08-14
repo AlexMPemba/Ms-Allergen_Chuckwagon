@@ -620,7 +620,8 @@ export default function AdminPanel() {
               </div>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
       {/* Modal d'édition */}
       {showEditModal && editingDish && (
@@ -790,7 +791,8 @@ export default function AdminPanel() {
               </div>
             </div>
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 }
