@@ -24,6 +24,10 @@ import { categories, allergenTranslations } from '../data/translations';
 import { categoriesConfig, getSubcategoriesForCategory } from '../data/categories';
 import IngredientInput from './IngredientInput';
 import { updateDishImages, displayUpdateReport } from '../utils/updateDishImages';
+
+export default function AdminPanel() {
+  const navigate = useNavigate();
+  const { dishes, loading, error, addDish, updateDish, deleteDish, resetToDefault, addAdditionalItems, addCompleteMenu, refreshDishes } = useDishes();
   
   // États pour l'interface
   const [searchQuery, setSearchQuery] = useState('');
@@ -391,7 +395,8 @@ import { updateDishImages, displayUpdateReport } from '../utils/updateDishImages
     }
   };
 
-  // Basculer la sélection d'allergène
+  const handleToggleVisibility = async (dishId: string) => {
+    // Basculer la sélection d'allergène
   const toggleAllergen = (allergen: string, isEditing: boolean = false) => {
     if (isEditing && editForm) {
       const currentAllergens = editForm.allergenes || [];
