@@ -125,7 +125,8 @@ export default function AdminPanel() {
     // Validation de la sous-catégorie
     const validSubcategories = getSubcategoriesForCategory(newDish.categorie);
     if (validSubcategories && newDish.sous_categorie && !validSubcategories.includes(newDish.sous_categorie)) {
-      setOperationError('Sous-catégorie invalide pour cette catégorie');
+        image: newDish.image || undefined,
+        a_la_carte: newDish.a_la_carte
       return;
     }
 
@@ -157,7 +158,8 @@ export default function AdminPanel() {
       setTimeout(() => setOperationSuccess(null), 3000);
       
     } catch (err) {
-      console.error('❌ [ADD] Erreur lors de l\'ajout:', err);
+        image: '',
+        a_la_carte: true
       setOperationError(`Erreur lors de l'ajout: ${err instanceof Error ? err.message : 'Erreur inconnue'}`);
     } finally {
       setOperationLoading(false);
@@ -630,27 +632,6 @@ export default function AdminPanel() {
                 />
               </div>
               
-              <div>
-                <label className="block text-sm font-medium western-subtitle mb-2">
-                  Visibilité
-                </label>
-                <div className="flex items-center space-x-3 p-3 bg-amber-50 rounded-lg border border-amber-200">
-                  <input
-                    type="checkbox"
-                    id="editDish-a-la-carte"
-                    checked={editingDish.a_la_carte !== false}
-                    onChange={(e) => setEditingDish({ ...editingDish, a_la_carte: e.target.checked })}
-                    className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-amber-300 rounded"
-                  />
-                  <label htmlFor="editDish-a-la-carte" className="text-sm western-subtitle cursor-pointer">
-                    Actuellement à la carte
-                  </label>
-                  <span className="text-xs text-gray-600">
-                    (visible dans le menu public)
-                  </span>
-                </div>
-              </div>
-
               <div>
                 <label className="block text-sm font-medium western-subtitle mb-2">
                   Catégorie *
