@@ -918,21 +918,6 @@ export default function AdminPanel() {
                         </div>
                       </div>
                       
-                      {/* Case à cocher pour la visibilité */}
-                      <div className="mb-4">
-                        <label className="flex items-center space-x-2">
-                          <input
-                            type="checkbox"
-                            checked={editForm.a_la_carte}
-                            onChange={(e) => setEditForm({ ...editForm, a_la_carte: e.target.checked })}
-                            className="rounded border-amber-300 text-amber-600 focus:ring-amber-500"
-                          />
-                          <span className="text-sm western-subtitle">
-                            Actuellement à la carte (visible dans le menu public)
-                          </span>
-                        </label>
-                      </div>
-                      
                       <div>
                         <label className="block text-sm font-medium western-subtitle mb-2">
                           Ingrédients
