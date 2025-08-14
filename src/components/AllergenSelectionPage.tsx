@@ -52,6 +52,18 @@ export default function AllergenSelectionPage() {
       setShowNatamaBubble(true);
       setBubbleVisible(true);
       
+      // Scroll automatique pour centrer la bulle après un court délai
+      const scrollTimeout = setTimeout(() => {
+        const bubbleElement = document.querySelector('.nutrisens-bubble');
+        if (bubbleElement) {
+          bubbleElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'nearest'
+          });
+        }
+      }, 300); // Délai pour laisser la bulle s'afficher
+      
       // Démarrer l'oscillation après 3 secondes
       const oscillationTimeout = setTimeout(() => {
         setIsOscillating(true);
@@ -67,6 +79,7 @@ export default function AllergenSelectionPage() {
       return () => {
         clearInterval(oscillationInterval);
         clearTimeout(oscillationTimeout);
+        clearTimeout(scrollTimeout);
       };
     } else {
       // Masquer la bulle si moins de 3 allergènes
@@ -181,7 +194,7 @@ export default function AllergenSelectionPage() {
 
         {/* Bulle de suggestion Natama - positionnée entre les deux notifications */}
         {showNatamaBubble && (
-          <div className={`bg-green-100 border-2 border-green-600 rounded-lg p-4 mb-6 shadow-lg transition-opacity duration-300 ${
+          <div className={`nutrisens-bubble bg-green-100 border-2 border-green-600 rounded-lg p-4 mb-6 shadow-lg transition-opacity duration-300 ${
             bubbleVisible ? 'opacity-100' : 'opacity-70'
           } ${
             isOscillating ? 'nutrisens-oscillate' : ''
@@ -189,7 +202,7 @@ export default function AllergenSelectionPage() {
             <div className="flex items-center space-x-2 mb-3">
               <Leaf className="h-5 w-5 text-green-600" />
               <h4 className="text-sm font-medium text-green-800">
-                Trop d'allergènes ? Essayez les plats Natama
+                Trop d'allergènes ? Essayez les plats Nutrisens
               </h4>
               <button
                 onClick={() => {
