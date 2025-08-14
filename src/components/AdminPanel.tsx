@@ -356,28 +356,6 @@ export default function AdminPanel() {
   };
 
   // Mettre à jour les images des plats
-  // Fonction pour basculer la visibilité d'un plat
-  const toggleDishVisibility = async (dishId: string) => {
-    try {
-      setLoadingVisibility(dishId);
-      
-      const dish = dishes.find(d => d.id === dishId);
-      if (!dish) return;
-      
-      const newVisibility = !(dish.a_la_carte ?? true);
-      
-      await updateDish(dishId, {
-        a_la_carte: newVisibility
-      });
-      
-      console.log(`Visibilité du plat "${dish.nom}" basculée vers:`, newVisibility);
-    } catch (err) {
-      console.error('Erreur lors du basculement de visibilité:', err);
-    } finally {
-      setLoadingVisibility(null);
-    }
-  };
-
   const handleUpdateImages = async () => {
     setOperationLoading(true);
     setOperationError(null);
