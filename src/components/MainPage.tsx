@@ -11,6 +11,12 @@ import { getSubcategoriesForCategory } from '../data/categories';
 export default function MainPage() {
   const { language } = useParams<{ language: string }>();
   const navigate = useNavigate();
+  
+  // Scroll vers le haut au chargement de la page
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [hiddenAllergens, setHiddenAllergens] = useState<string[]>(() => {
     // Récupérer les allergènes sélectionnés depuis le localStorage
