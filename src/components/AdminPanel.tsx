@@ -508,13 +508,33 @@ export default function AdminPanel() {
                   <label className="block text-sm font-medium western-subtitle mb-2">
                     Sous-catégorie (optionnel)
                   </label>
-                  <input
-                    type="text"
+                  <select
                     value={newDish.sous_categorie}
                     onChange={(e) => setNewDish(prev => ({ ...prev, sous_categorie: e.target.value }))}
                     className="w-full p-3 western-input rounded-lg focus:ring-2 focus:ring-amber-500"
-                    placeholder="Ex: Bar à Salades"
-                  />
+                  >
+                    <option value="">Aucune sous-catégorie</option>
+                    {/* Sous-catégories pour Entrées */}
+                    <optgroup label="Entrées">
+                      <option value="Bar à Salades">Bar à Salades</option>
+                      <option value="Charcuterie">Charcuterie</option>
+                      <option value="Produits de la mer">Produits de la mer</option>
+                      <option value="Soupes">Soupes</option>
+                      <option value="Assortiment de graines et fruits secs">Assortiment de graines et fruits secs</option>
+                      <option value="Salades Composées">Salades Composées</option>
+                    </optgroup>
+                    {/* Sous-catégories pour Desserts */}
+                    <optgroup label="Desserts">
+                      <option value="Desserts fruités">Desserts fruités</option>
+                      <option value="Glaces">Glaces</option>
+                      <option value="Gâteau d'anniversaire">Gâteau d'anniversaire</option>
+                    </optgroup>
+                    {/* Sous-catégories pour Sauces */}
+                    <optgroup label="Sauces">
+                      <option value="Sauces condiment">Sauces condiment</option>
+                      <option value="Sauces salade">Sauces salade</option>
+                    </optgroup>
+                  </select>
                 </div>
 
                 {/* Ingrédients */}
@@ -676,13 +696,33 @@ export default function AdminPanel() {
                   <label className="block text-sm font-medium western-subtitle mb-2">
                     Sous-catégorie (optionnel)
                   </label>
-                  <input
-                    type="text"
+                  <select
                     value={editingDish.sous_categorie || ''}
                     onChange={(e) => setEditingDish(prev => prev ? { ...prev, sous_categorie: e.target.value || null } : null)}
                     className="w-full p-3 western-input rounded-lg focus:ring-2 focus:ring-amber-500"
-                    placeholder="Ex: Bar à Salades"
-                  />
+                  >
+                    <option value="">Aucune sous-catégorie</option>
+                    {/* Sous-catégories pour Entrées */}
+                    <optgroup label="Entrées">
+                      <option value="Bar à Salades">Bar à Salades</option>
+                      <option value="Charcuterie">Charcuterie</option>
+                      <option value="Produits de la mer">Produits de la mer</option>
+                      <option value="Soupes">Soupes</option>
+                      <option value="Assortiment de graines et fruits secs">Assortiment de graines et fruits secs</option>
+                      <option value="Salades Composées">Salades Composées</option>
+                    </optgroup>
+                    {/* Sous-catégories pour Desserts */}
+                    <optgroup label="Desserts">
+                      <option value="Desserts fruités">Desserts fruités</option>
+                      <option value="Glaces">Glaces</option>
+                      <option value="Gâteau d'anniversaire">Gâteau d'anniversaire</option>
+                    </optgroup>
+                    {/* Sous-catégories pour Sauces */}
+                    <optgroup label="Sauces">
+                      <option value="Sauces condiment">Sauces condiment</option>
+                      <option value="Sauces salade">Sauces salade</option>
+                    </optgroup>
+                  </select>
                 </div>
 
                 {/* Ingrédients */}
