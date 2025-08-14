@@ -23,6 +23,7 @@ import { Dish, Category, Language } from '../types';
 import { categories, allergenTranslations } from '../data/translations';
 import { categoriesConfig, getSubcategoriesForCategory } from '../data/categories';
 import IngredientInput from './IngredientInput';
+import { updateDishImages, displayUpdateReport } from '../utils/updateDishImages';
 
 export default function AdminPanel() {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ export default function AdminPanel() {
   const [showConfirmReset, setShowConfirmReset] = useState(false);
   const [showConfirmA2, setShowConfirmA2] = useState(false);
   const [showConfirmComplete, setShowConfirmComplete] = useState(false);
+  const [showConfirmImageUpdate, setShowConfirmImageUpdate] = useState(false);
   const [operationLoading, setOperationLoading] = useState(false);
   const [operationError, setOperationError] = useState<string | null>(null);
   const [operationSuccess, setOperationSuccess] = useState<string | null>(null);
@@ -351,6 +353,46 @@ export default function AdminPanel() {
     }
   };
 
+  // Mettre à jour les images des plats
+  const handleUpdateImages = async () => {
+    setOperationLoading(true);
+    setOperationError(null);
+    
+    try {
+      console.log('🖼️ [UPDATE] Début mise à jour des images des plats');
+      
+      const results = await updateDishImages();
+      
+      // Afficher le rapport détaillé dans la console
+      displayUpdateReport(results);
+      
+      if (results.success) {
+        console.log('✅ [UPDATE] Images mises à jour avec succès');
+        setOperationSuccess(`Images mises à jour avec succès ! (${results.updated} plats mis à jour)`);
+        
+        // Rafraîchir la liste des plats
+        await refreshDishes();
+      } else {
+        console.error('❌ [UPDATE] Erreurs lors de la mise à jour des images');
+        setOperationError(`Mise à jour partielle: ${results.updated} plats mis à jour, ${results.errors.length} erreurs`);
+      }
+      
+      setShowConfirmImageUpdate(false);
+      
+      // Effacer le message après 5 secondes
+      setTimeout(() => {
+        setOperationSuccess(null);
+        setOperationError(null);
+      }, 5000);
+      
+    } catch (err) {
+      console.error('❌ [UPDATE] Erreur lors de la mise à jour des images:', err);
+      setOperationError(`Erreur lors de la mise à jour des images: ${err instanceof Error ? err.message : 'Erreur inconnue'}`);
+    } finally {
+      setOperationLoading(false);
+    }
+  };
+
   // Basculer la sélection d'allergène
   const toggleAllergen = (allergen: string, isEditing: boolean = false) => {
     if (isEditing && editForm) {
@@ -483,6 +525,15 @@ export default function AdminPanel() {
               >
                 <Upload className="h-4 w-4" />
                 <span>Menu complet Chuck Wagon</span>
+              </button>
+              
+              <button
+                onClick={() => setShowConfirmImageUpdate(true)}
+                disabled={operationLoading}
+                className="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm transition-colors disabled:opacity-50"
+              >
+                <Upload className="h-4 w-4" />
+                <span>Mettre à jour images</span>
               </button>
               
               <button
@@ -1062,6 +1113,50 @@ export default function AdminPanel() {
                     <Check className="h-4 w-4" />
                   )}
                   <span>{operationLoading ? 'Ajout...' : 'Ajouter 37 plats'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Confirmation mise à jour des images */}
+        {showConfirmImageUpdate && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="western-card rounded-2xl shadow-2xl max-w-md w-full p-6">
+              <div className="text-center mb-6">
+                <div className="bg-indigo-100 p-4 rounded-full border-2 border-indigo-800 flex items-center justify-center mx-auto w-fit mb-4">
+                  <Upload className="h-8 w-8 text-indigo-800" />
+                </div>
+                <h2 className="text-xl western-title mb-2">Mettre à jour les images des plats</h2>
+                <p className="western-subtitle text-sm">
+                  Cette action va mettre à jour les images des plats existants avec les nouvelles URLs fournies (environ 70 plats).
+                </p>
+              </div>
+              
+              <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-6">
+                <p className="text-blue-800 text-sm">
+                  <strong>ℹ️ Information :</strong> Seuls les plats correspondants seront mis à jour. Les plats non trouvés seront ignorés.
+                </p>
+              </div>
+              
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setShowConfirmImageUpdate(false)}
+                  className="flex-1 px-4 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg text-sm transition-colors"
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={handleUpdateImages}
+                  disabled={operationLoading}
+                  className="flex-1 flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-3 rounded-lg text-sm transition-colors disabled:opacity-50"
+                >
+                  {operationLoading ? (
+                    <RefreshCw className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Check className="h-4 w-4" />
+                  )}
+                  <span>{operationLoading ? 'Mise à jour...' : 'Mettre à jour'}</span>
                 </button>
               </div>
             </div>
